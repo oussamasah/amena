@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>
+			{% block title %}Welcome!
+			{% endblock %}
+		</title>
+		<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+		<link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+		<script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js" integrity="sha512-2rNj2KJ+D8s1ceNasTIex6z4HWyOnEYLVC3FigGOmyQCZc2eBXKgOxQmo3oKLHyfcj53uz4QMsRCWNbLd32Q1g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+		<script src="{{ asset('js/main.js') }}"></script>
+		<link rel="stylesheet" href="{{ asset('css/style.css') }}">
+		<link
+		href="{{ asset('css/fontawesome/css/all.css') }}" rel="stylesheet"/>
+		{# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
+		{% block stylesheets %}
+			{{ encore_entry_link_tags('app') }}
+		{% endblock %}
+
+		{% block javascripts %}
+			{{ encore_entry_script_tags('app') }}
+			<script>
+const eventSource = new EventSource("{{ mercure('https://example.com/books/1')|escape('js') }}");
+eventSource.onmessage = event => {
+    // Will be called every time an update is published by the server
+    console.log(JSON.parse(event.data));
+}
+</script>
+		{% endblock %}
+		<style>
+		body *{
+			font-family: 'Montserrat', sans-serif;
+		}
+		.primary-color{
+			color:#3445b4;
+		}
+		.primary-bg{
+			background:#3445b4;
+		}
+		.secodary-color{
+			color:#44bef1;
+		}
+		.secondary-bg{
+			background:#44bef1;
+		}
+		.btn.secondary-bg:hover{
+			color:#3445b4!important;
+			background:#44bef1!important;
+
+		}
+.btn.primary-bg:hover {
+    background: #44bef1;
+    color: white;
+}
+		select[readonly] {
+    pointer-events:none!important;
+}
+		.actions i{
+font-size:20px;
+margin: 5px;
+		}
+		</style>
+	</head>
+	<body>
+		<div class="wrapper d-flex align-items-stretch">
+			<nav id="sidebar" class="">
+				<div class="custom-menu">
+					<button type="button" id="sidebarCollapse" class="btn btn-primary">
+						<i class="fa fa-bars"></i>
+						<span class="sr-only">Toggle Menu</span>
+					</button>
+				</div>
+				<div class="p-4">
+					<h1>
+						<a href="index.html" class="logo">AmenaExpress
+							<span>Delivery</span>
+						</a>
+					</h1>
+
+					<ul class="list-unstyled components mb-5">
+						<li {% if app.request.get('_route') == 'app_dashbord' %} class="active" {% endif %}>
+							<a href="{{path('app_dashbord')}}">
+								<span class="fa fa-dashboard mr-3"></span>
+								Dashboard</a>
+						</li>
+						<li {% if app.request.get('_route') == 'app_package' %} class="active" {% endif %}>
+							<a href="{{path('app_package')}}">
+								<span class="fas fa-box-open mr-3"></span>
+								Packages</a>
+						</li>
+						<li>
+							<a href="#">
+								<span class="fa fa-briefcase mr-3"></span>
+								Works</a>
+						</li>
+						<li>
+							<a href="#">
+								<span class="fa fa-sticky-note mr-3"></span>
+								Blog</a>
+						</li>
+						<li>
+							<a href="#">
+								<span class="fa fa-suitcase mr-3"></span>
+								Gallery</a>
+						</li>
+						<li>
+							<a href="#">
+								<span class="fa fa-cogs mr-3"></span>
+								Services</a>
+						</li>
+						<li>
+							<a href="#">
+								<span class="fa fa-paper-plane mr-3"></span>
+								Contacts</a>
+						</li>
+					</ul>
+					<div class="mb-5"></div>
+					<div class="footer">
+						<div class="d-flex justify-content-space-arround align-items-center">
+                        <button type="button" class="btn btn-primary position-relative me-4">
+<i class="far fa-bell"></i>
+  <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+    99+
+    <span class="visually-hidden">unread messages</span>
+  </span>
+</button>
+                        <button type="button" class="btn btn-primary position-relative me-4">
+<i class="fas fa-comments"></i>
+  <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+    99+
+    <span class="visually-hidden">unread messages</span>
+  </span>
+</button>
+<a href="{{path('app_logout')}}" title="logout" class="btn btn-primary"><i class="far fa-power-off"></i></a>
+
+	</div>
+							<div class="profile">
+								WELECOME
+								{{ app.user.name | upper }}
+								{%if app.user.getRoles()[0] == "EXPIDITOR_ROLE" %}
+									<span class="badge rounded-pill text-bg-dark">Expeditor</span>
+								{% endif %}
+								{%if app.user.getRoles()[0] == "ADMIN_ROLE" %}
+									<span class="badge rounded-pill text-bg-dark">Admin</span>
+								{% endif %}
+								{%if app.user.getRoles()[0] == "DELIVERY_ROLE" %}
+									<span class="badge rounded-pill text-bg-dark">Delivery</span>
+								{% endif %}
+								<div></div>
+							</div>
+					
+					</nav>
+
+					<div id="content" class="p-4 p-md-5 pt-5"> {% block body %}{% endblock %}
+						</div>
+					</div>
+
+				</body>
+			</html>
+		</body>
+	</html>

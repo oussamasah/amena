@@ -1,0 +1,138 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello DashbordController!
+{% endblock %}
+
+{% block body %}
+	<div class="d-flex justify-content-around align-items-center state-stats">
+		<div class="card">
+			<div class="card-block p-3">
+				<div class="row align-items-center">
+					<div class="col-8">
+						<h4 class="text-c-yellow f-w-600">{{waiting | length}}</h4>
+						<h6 class="text-muted m-b-0">Packages</h6>
+					</div>
+					<div class="col-4 text-right ">
+						<i class="fas fa-spinner text-warning"></i>
+					</div>
+				</div>
+			</div>
+			<div class="card-footer bg-warning">
+				<div class="d-flex  justify-content-around align-items-center">
+					<span class="text-white">Waiting Packages</span>
+					<i class="fas fa-archive text-light"></i>
+				</div>
+			</div>
+		</div>
+        <div class="card">
+			<div class="card-block p-3">
+				<div class="row align-items-center">
+					<div class="col-8">
+						<h4 class="text-c-yellow f-w-600">{{approved | length}}</h4>
+						<h6 class="text-muted m-b-0">Packages</h6>
+					</div>
+					<div class="col-4 text-right ">
+						<i class="fas fa-box-check text-dark"></i>
+					</div>
+				</div>
+			</div>
+			<div class="card-footer bg-dark">
+				<div class="d-flex  justify-content-around align-items-center">
+					<span class="text-white">Approved Packages</span>
+					<i class="fas fa-thumbs-up text-light"></i>
+				</div>
+			</div>
+		</div>
+
+                <div class="card">
+			<div class="card-block p-3">
+				<div class="row align-items-center">
+					<div class="col-8">
+						<h4 class="text-c-yellow f-w-600">{{picked | length}}</h4>
+						<h6 class="text-muted m-b-0">Packages</h6>
+					</div>
+					<div class="col-4 text-right ">
+						<i class="fas fa-hand-receiving text-info"></i>
+					</div>
+				</div>
+			</div>
+			<div class="card-footer bg-info">
+				<div class="d-flex  justify-content-around align-items-center">
+					<span class="text-white">Picked Packages</span>
+					<i class="fas fa-people-carry text-light"></i>
+				</div>
+			</div>
+		</div>
+
+                <div class="card">
+			<div class="card-block p-3">
+				<div class="row align-items-center">
+					<div class="col-8">
+						<h4 class="text-c-yellow f-w-600">{{delivered | length}}</h4>
+						<h6 class="text-muted m-b-0">Packages</h6>
+					</div>
+					<div class="col-4 text-right ">
+						<i class="fas fa-box-heart text-success"></i>
+					</div>
+				</div>
+			</div>
+			<div class="card-footer bg-success">
+				<div class="d-flex  justify-content-around align-items-center">
+					<span class="text-white">Delivered Packages</span>
+					<i class="fas fa-shipping-fast text-light"></i>
+				</div>
+			</div>
+		</div>
+                <div class="card">
+			<div class="card-block p-3">
+				<div class="row align-items-center">
+					<div class="col-8">
+						<h4 class="text-c-yellow f-w-600">{{returned | length}}</h4>
+						<h6 class="text-muted m-b-0">Packages</h6>
+					</div>
+					<div class="col-4 text-right ">
+						<i class="fas fa-box-open text-danger"></i>
+					</div>
+				</div>
+			</div>
+			<div class="card-footer bg-danger">
+				<div class="d-flex  justify-content-around align-items-center">
+					<span class="text-white">Returned Packages</span>
+					<i class="far fa-shipping-timed text-light"></i>
+				</div>
+			</div>
+		</div>
+	</div>
+  <div class="bg-white p-5 mt-3">
+  <div class="text-right">  <input type="text" name="daterange"  value="01/01/2018 - 01/15/2018" /></div>
+
+  </div>
+{% endblock %}
+{% block stylesheets %}
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+	<style>
+
+		.state-stats .card {
+			width: 19%
+		}
+		.state-stats .card i {
+			font-size: 25px;
+		}
+	</style>
+{% endblock %}
+{% block javascripts %}
+	
+<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
+<script>
+$(function() {
+  $('input[name="daterange"]').daterangepicker({
+    opens: 'left'
+  }, function(start, end, label) {
+    console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+  });
+});
+</script>
+{% endblock %}
