@@ -51,6 +51,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'delivery', targetEntity: Package::class)]
     private Collection $deliverypackages;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $photo = null;
+
+    #[ORM\ManyToOne(inversedBy: 'account')]
+    private ?Account $account = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $code = null;
+
     public function __construct()
     {
         $this->packages = new ArrayCollection();
@@ -216,10 +225,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
-    public function __toString() 
-{
-    return (string) $this->name; 
-}
+    public function __toString()
+    {
+        return (string) $this->name;
+    }
 
     /**
      * @return Collection<int, Package>
@@ -247,6 +256,42 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $deliverypackage->setDelivery(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPhoto(): ?string
+    {
+        return $this->photo;
+    }
+
+    public function setPhoto(?string $photo): self
+    {
+        $this->photo = $photo;
+
+        return $this;
+    }
+
+    public function getAccount(): ?Account
+    {
+        return $this->account;
+    }
+
+    public function setAccount(?Account $account): self
+    {
+        $this->account = $account;
+
+        return $this;
+    }
+
+    public function getCode(): ?string
+    {
+        return $this->code;
+    }
+
+    public function setCode(string $code): self
+    {
+        $this->code = $code;
 
         return $this;
     }

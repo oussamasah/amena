@@ -22,7 +22,7 @@ class City
     private ?string $name = null;
 
     #[ORM\ManyToOne(inversedBy: 'cities')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Region $region = null;
 
     #[ORM\OneToMany(mappedBy: 'city', targetEntity: Package::class)]
