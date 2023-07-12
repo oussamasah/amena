@@ -36,11 +36,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $identity = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $region = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $city = null;
+ 
+  
 
     #[ORM\Column(length: 255)]
     private ?string $adress = null;
@@ -59,6 +56,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255)]
     private ?string $code = null;
+
+    #[ORM\ManyToOne(inversedBy: 'users')]
+    private ?Region $region = null;
+
+    #[ORM\ManyToOne(inversedBy: 'users')]
+    private ?City $city = null;
 
     public function __construct()
     {
@@ -160,24 +163,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getRegion(): ?string
+    public function getRegion(): ?Region
     {
         return $this->region;
     }
 
-    public function setRegion(string $region): self
+    public function setRegion(?Region $region): self
     {
         $this->region = $region;
 
         return $this;
     }
 
-    public function getCity(): ?string
+    public function getCity(): ?City
     {
         return $this->city;
     }
 
-    public function setCity(string $city): self
+    public function setCity(?City $city): self
     {
         $this->city = $city;
 

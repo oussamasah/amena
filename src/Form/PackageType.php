@@ -58,6 +58,7 @@ class PackageType extends AbstractType
                 "multiple"=>false
                 
             ])
+
         ;
     }
 

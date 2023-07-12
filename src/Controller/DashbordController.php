@@ -32,11 +32,12 @@ class DashbordController extends AbstractController
         }
   
         $user = $this->security->getUser();
+   
         if(!$user){
             return $this->RedirectToRoute('app_login');    
         }
    
-        if (in_array('EXPIDITOR_ROLE', $user->getRoles(), true)) {
+        if (in_array('EXPEDITOR_ROLE', $user->getRoles(), true)) {
 
            $waiting = $this->entityManager->getRepository(Package::class)->getWithState("waiting",$user->getId(),$debut,$fin);
            $approved = $this->entityManager->getRepository(Package::class)->getWithState("approved",$user->getId(),$debut,$fin);

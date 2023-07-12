@@ -89,4 +89,15 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
            ->getResult()
        ;
    }
+   public function findExpeditorByAccount($Account): array
+   {
+       return $this->createQueryBuilder('u')
+       ->andWhere('u.account = :account')
+           ->setParameter('account',$Account)
+           ->andWhere('u.roles LIKE :role')
+           ->setParameter('role','%EXPEDITOR%')
+           ->getQuery()
+           ->getResult()
+       ;
+   }
 }

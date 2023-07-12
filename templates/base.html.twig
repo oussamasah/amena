@@ -24,45 +24,44 @@
 		{% block javascripts %}
 			{{ encore_entry_script_tags('app') }}
 			<script>
-const eventSource = new EventSource("{{ mercure('https://example.com/books/1')|escape('js') }}");
-eventSource.onmessage = event => {
-    // Will be called every time an update is published by the server
-    console.log(JSON.parse(event.data));
+				const eventSource = new EventSource("{{ mercure('https://example.com/books/1')|escape('js') }}");
+eventSource.onmessage = event => { // Will be called every time an update is published by the server
+console.log(JSON.parse(event.data));
 }
-</script>
+			</script>
 		{% endblock %}
 		<style>
-		body *{
-			font-family: 'Montserrat', sans-serif;
-		}
-		.primary-color{
-			color:#3445b4;
-		}
-		.primary-bg{
-			background:#3445b4;
-		}
-		.secodary-color{
-			color:#44bef1;
-		}
-		.secondary-bg{
-			background:#44bef1;
-		}
-		.btn.secondary-bg:hover{
-			color:#3445b4!important;
-			background:#44bef1!important;
+			body * {
+				font-family: 'Montserrat', sans-serif;
+			}
+			.primary-color {
+				color: #3445b4;
+			}
+			.primary-bg {
+				background: #3445b4;
+			}
+			.secodary-color {
+				color: #44bef1;
+			}
+			.secondary-bg {
+				background: #44bef1;
+			}
+			.btn.secondary-bg:hover {
+				color: #3445b4 !important;
+				background: #44bef1 !important;
 
-		}
-.btn.primary-bg:hover {
-    background: #44bef1;
-    color: white;
-}
-		select[readonly] {
-    pointer-events:none!important;
-}
-		.actions i{
-font-size:20px;
-margin: 5px;
-		}
+			}
+			.btn.primary-bg:hover {
+				background: #44bef1;
+				color: white;
+			}
+			select[readonly] {
+				pointer-events: none !important;
+			}
+			.actions i {
+				font-size: 20px;
+				margin: 5px;
+			}
 		</style>
 	</head>
 	<body>
@@ -92,11 +91,14 @@ margin: 5px;
 								<span class="fas fa-box-open mr-3"></span>
 								Packages</a>
 						</li>
-						<li>
-							<a href="#">
-								<span class="fa fa-briefcase mr-3"></span>
-								Works</a>
-						</li>
+						{%if app.user.getRoles()[0] == "ADMIN_ROLE" %}
+						<li {% if app.request.get('_route') == 'app_expeditor' %} class="active" {% endif %}>
+							<a href="{{path('app_expeditor')}}">
+									<span class="fa fa-briefcase mr-3"></span>
+									Expeditors</a>
+							</li>
+						{% endif %}
+
 						<li>
 							<a href="#">
 								<span class="fa fa-sticky-note mr-3"></span>
@@ -121,38 +123,40 @@ margin: 5px;
 					<div class="mb-5"></div>
 					<div class="footer">
 						<div class="d-flex justify-content-space-arround align-items-center">
-                        <button type="button" class="btn btn-primary position-relative me-4">
-<i class="far fa-bell"></i>
-  <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-    99+
-    <span class="visually-hidden">unread messages</span>
-  </span>
-</button>
-                        <button type="button" class="btn btn-primary position-relative me-4">
-<i class="fas fa-comments"></i>
-  <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-    99+
-    <span class="visually-hidden">unread messages</span>
-  </span>
-</button>
-<a href="{{path('app_logout')}}" title="logout" class="btn btn-primary"><i class="far fa-power-off"></i></a>
+							<button type="button" class="btn btn-primary position-relative me-4">
+								<i class="far fa-bell"></i>
+								<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+									99+
+									<span class="visually-hidden">unread messages</span>
+								</span>
+							</button>
+							<button type="button" class="btn btn-primary position-relative me-4">
+								<i class="fas fa-comments"></i>
+								<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+									99+
+									<span class="visually-hidden">unread messages</span>
+								</span>
+							</button>
+							<a href="{{path('app_logout')}}" title="logout" class="btn btn-primary">
+								<i class="far fa-power-off"></i>
+							</a>
 
-	</div>
-							<div class="profile">
-								WELECOME
-								{{ app.user.name | upper }}
-								{%if app.user.getRoles()[0] == "EXPIDITOR_ROLE" %}
-									<span class="badge rounded-pill text-bg-dark">Expeditor</span>
-								{% endif %}
-								{%if app.user.getRoles()[0] == "ADMIN_ROLE" %}
-									<span class="badge rounded-pill text-bg-dark">Admin</span>
-								{% endif %}
-								{%if app.user.getRoles()[0] == "DELIVERY_ROLE" %}
-									<span class="badge rounded-pill text-bg-dark">Delivery</span>
-								{% endif %}
-								<div></div>
-							</div>
-					
+						</div>
+						<div class="profile">
+							WELECOME
+							{{ app.user.name | upper }}
+							{%if app.user.getRoles()[0] == "EXPIDITOR_ROLE" %}
+								<span class="badge rounded-pill text-bg-dark">Expeditor</span>
+							{% endif %}
+							{%if app.user.getRoles()[0] == "ADMIN_ROLE" %}
+								<span class="badge rounded-pill text-bg-dark">Admin</span>
+							{% endif %}
+							{%if app.user.getRoles()[0] == "DELIVERY_ROLE" %}
+								<span class="badge rounded-pill text-bg-dark">Delivery</span>
+							{% endif %}
+							<div></div>
+						</div>
+
 					</nav>
 
 					<div id="content" class="p-4 p-md-5 pt-5"> {% block body %}{% endblock %}

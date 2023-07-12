@@ -50,8 +50,8 @@ class AppFixtures extends Fixture
         $user->setName("Admin");
         $user->setRoles(["ADMIN_ROLE"]);
         $user->setIdentity("06101994");
-        $user->setRegion("Nabeul");
-        $user->setCity("Grombalia");
+        $user->setRegion($r1);
+        $user->setCity($c1);
         $user->setAdress("06 rue abue kassem chebbi");
         $user->setCode("06101994");
         $manager->persist($user);

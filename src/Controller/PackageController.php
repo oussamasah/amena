@@ -21,10 +21,15 @@ class PackageController extends AbstractController
 
     public function __construct(Security $security,ManagerRegistry $doctrine)
     {
+        
         // Avoid calling getUser() in the constructor: auth may not
         // be complete yet. Instead, store the entire Security object.
         $this->security = $security;
         $this->entityManager = $doctrine->getManager();
+        $user = $this->security->getUser();
+        if(!$user){
+            return $this->RedirectToRoute('app_login');    
+        }
     }
     #[Route('/package', name: 'app_package')]
     public function index(): Response
@@ -35,7 +40,7 @@ class PackageController extends AbstractController
             return $this->RedirectToRoute('app_login');    
         }
      
-        if (in_array('EXPIDITOR_ROLE', $user->getRoles(), true)) {
+        if (in_array('EXPEDITOR_ROLE', $user->getRoles(), true)) {
 
             
             $packages = $user->getPackages();

@@ -27,10 +27,14 @@ class Region
     #[ORM\OneToMany(mappedBy: 'region', targetEntity: Package::class)]
     private Collection $packages;
 
+    #[ORM\OneToMany(mappedBy: 'region', targetEntity: User::class)]
+    private Collection $users;
+
     public function __construct()
     {
         $this->cities = new ArrayCollection();
         $this->packages = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -116,6 +120,36 @@ class Region
             // set the owning side to null (unless already changed)
             if ($package->getRegion() === $this) {
                 $package->setRegion(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users->add($user);
+            $user->setRegion($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        if ($this->users->removeElement($user)) {
+            // set the owning side to null (unless already changed)
+            if ($user->getRegion() === $this) {
+                $user->setRegion(null);
             }
         }
 
