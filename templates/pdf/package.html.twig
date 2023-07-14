@@ -1,37 +1,122 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Package Information</title>
-    <style>
-        .image-table {
-            width: 100%;
-            table-layout: fixed;
-        }
-        .image-table td {
-            width: 33.33%;
-            padding: 10px;
-            text-align: center;
-            vertical-align: middle;
-        }
-        .image {
-            max-width: 100%;
-            max-height: 100%;
-        }
-    </style>
-</head>
-<body>
-    <table class="image-table">
-        <tr>
-            <td>
-                <img class="image" src="image1.jpg" alt="Image 1">
-            </td>
-            <td>
-                <img class="image" src="image2.jpg" alt="Image 2">
-            </td>
-            <td>
-                <img class="image" src="image3.jpg" alt="Image 3">
-            </td>
-        </tr>
-    </table>
-</body>
+	<head>
+		<title>Invoice</title>
+		<style>
+			body {
+				font-family: Arial, sans-serif;
+			}
+
+			.container {
+				max-width: 800px;
+				margin: 0 auto;
+				padding: 20px;
+				border: 1px solid #ccc;
+			}
+
+			.header {
+				text-align: center;
+				margin-bottom: 20px;
+			}
+
+			.logo {
+				width: 150px;
+				height: 150px;
+			}
+
+			.date {
+				font-size: 18px;
+				margin-top: 10px;
+			}
+
+			.content {
+				margin-bottom: 30px;
+			}
+
+			.content-title {
+				font-weight: bold;
+				margin-bottom: 10px;
+			}
+
+			table {
+				width: 100%;
+				border-collapse: collapse;
+			}
+
+			th,
+			td {
+				padding: 8px;
+				text-align: left;
+				border-bottom: 1px solid #ddd;
+			}
+
+			.footer {
+				margin-top: 30px;
+				text-align: right;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<div class="header">
+				<div style="display:flex;width:100%;justify-content:space-between;">
+					<img src="{{ absolute_url(asset('img/logoamena.png')) }}">
+					<img src="{{ absolute_url(asset('img/qr.png')) }}">
+					<img src="{{ absolute_url(asset('img/profile.png')) }}">
+				</div>
+			</div>
+
+			<div class="content">
+				<div class="content-title">Expeditor:</div>
+				<p>
+					<strong>Sender Name:</strong>
+					John Doe</p>
+				<p>
+					<strong>Sender Address:</strong>
+					123 Main St, Anytown, USA</p>
+
+				<div class="content-title">Destinator:</div>
+				<p>
+					<strong>Recipient Name:</strong>
+					Jane Smith</p>
+				<p>
+					<strong>Recipient Address:</strong>
+					456 Park Ave, Sometown, USA</p>
+
+				<div class="content-title">Package Details:</div>
+				<table>
+					<thead>
+						<tr>
+							<th>Product</th>
+							<th>Quantity</th>
+							<th>Price</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Product 1</td>
+							<td>2</td>
+							<td>$20.00</td>
+						</tr>
+						<tr>
+							<td>Product 2</td>
+							<td>1</td>
+							<td>$15.00</td>
+						</tr>
+						<tr>
+							<td>Product 3</td>
+							<td>3</td>
+							<td>$30.00</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<div class="footer">
+				<p>
+					<strong>Total Amount:</strong>
+					$95.00</p>
+			</div>
+		</div>
+	</body>
 </html>
