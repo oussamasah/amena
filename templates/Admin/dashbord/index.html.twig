@@ -1,20 +1,354 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello DashbordController!{% endblock %}
+{% block title %}Hello DashbordController!
+{% endblock %}
+
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+	<div class="d-flex justify-content-center align-items-center fle-wrap mb-3 text-light p-3 bg-primary">
+		<div class="">
+			Apply a date for your statistics :
+		</div>
+		<input type="text" name="daterange" id="daterange" class="form-control w-25 text-center"/></div>
+	<div class="d-flex justify-content-around align-items-center state-stats">
+		<div class="card">
+			<div class="card-block p-3">
+				<div class="row align-items-center">
+					<div class="col-8">
+						<h4 class="text-c-yellow f-w-600 wating-value">{{waiting | length}}</h4>
+						<h6 class="text-muted m-b-0">Packages</h6>
+					</div>
+					<div class="col-4 text-right ">
+						<i class="fas fa-spinner text-warning"></i>
+					</div>
+				</div>
+			</div>
+			<div class="card-footer bg-warning">
+				<div class="d-flex  justify-content-around align-items-center">
+					<span class="text-white">Waiting Packages</span>
+					<i class="fas fa-archive text-light"></i>
+				</div>
+			</div>
+		</div>
+		<div class="card">
+			<div class="card-block p-3">
+				<div class="row align-items-center">
+					<div class="col-8">
+						<h4 class="text-c-yellow f-w-600 approved-value" >{{approved | length}}</h4>
+						<h6 class="text-muted m-b-0">Packages</h6>
+					</div>
+					<div class="col-4 text-right ">
+						<i class="fas fa-box-check text-dark"></i>
+					</div>
+				</div>
+			</div>
+			<div class="card-footer bg-dark">
+				<div class="d-flex  justify-content-around align-items-center">
+					<span class="text-white">Approved Packages</span>
+					<i class="fas fa-thumbs-up text-light"></i>
+				</div>
+			</div>
+		</div>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+		<div class="card">
+			<div class="card-block p-3">
+				<div class="row align-items-center">
+					<div class="col-8">
+						<h4 class="text-c-yellow f-w-600  picked-value">{{picked | length}}</h4>
+						<h6 class="text-muted m-b-0">Packages</h6>
+					</div>
+					<div class="col-4 text-right ">
+						<i class="fas fa-hand-receiving text-info"></i>
+					</div>
+				</div>
+			</div>
+			<div class="card-footer bg-info">
+				<div class="d-flex  justify-content-around align-items-center">
+					<span class="text-white">Picked Packages</span>
+					<i class="fas fa-people-carry text-light"></i>
+				</div>
+			</div>
+		</div>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/Users/oussemaa/Desktop/amenanew/amena/src/Controller/DashbordController.php'|file_link(0) }}">src/Controller/DashbordController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/Users/oussemaa/Desktop/amenanew/amena/templates/dashbord/index.html.twig'|file_link(0) }}">templates/dashbord/index.html.twig</a></code></li>
-    </ul>
-</div>
+		<div class="card">
+			<div class="card-block p-3">
+				<div class="row align-items-center">
+					<div class="col-8">
+						<h4 class="text-c-yellow f-w-600 delivered-value">{{delivered | length}}</h4>
+						<h6 class="text-muted m-b-0">Packages</h6>
+					</div>
+					<div class="col-4 text-right ">
+						<i class="fas fa-box-heart text-success"></i>
+					</div>
+				</div>
+			</div>
+			<div class="card-footer bg-success">
+				<div class="d-flex  justify-content-around align-items-center">
+					<span class="text-white">Delivered Packages</span>
+					<i class="fas fa-shipping-fast text-light"></i>
+				</div>
+			</div>
+		</div>
+
+		<div class="card">
+			<div class="card-block p-3">
+				<div class="row align-items-center">
+					<div class="col-8">
+						<h4 class="text-c-yellow f-w-600 returned-value">{{returned | length}}</h4>
+						<h6 class="text-muted m-b-0">Packages</h6>
+					</div>
+					<div class="col-4 text-right ">
+						<i class="fas fa-box-open text-danger"></i>
+					</div>
+				</div>
+			</div>
+			<div class="card-footer bg-danger">
+				<div class="d-flex  justify-content-around align-items-center">
+					<span class="text-white">Returned Packages</span>
+					<i class="far fa-shipping-timed text-light"></i>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="bg-white p-5 mt-3">
+
+		<div class="row justify-content-center align-items- mb-3">
+			<div class="col-md-6  d-flex justify-content-center">
+				<div class="card shadow-lg w-100">
+					<div class="card-body ">
+						<h4>Count of packages per experditor in this period  <span class="periode">{{debut}} - {{fin}}</span></h4>
+							<div>
+							Total Packages : <span class="totalPackageExpeditor">{{TotalPackageExpeditor}}</span>  
+						</div>
+						<div class="d-flex justify-content-center">
+							<div style="width: 400px;">
+								<canvas id="canvasPackagePerExpeditor"></canvas>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6  d-flex justify-content-center">
+				<div class="card shadow-lg w-100">
+					<div class="card-body ">
+						<h4>Count of packages per delivery in this period  <span class="periode">{{debut}} - {{fin}}</span></h4>
+						<div>
+							Total Packages : <span class="totalPackageDelivery">{{TotalPackageDelivery}}</span> 
+						</div>
+						<div class="d-flex justify-content-center">
+							<div style="width: 400px;">
+								<canvas id="canvasPackagePerDelivery"></canvas>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row justify-content-center align-items-center">
+			<div class="col-md-12  d-flex justify-content-center">
+				<div class="card shadow-lg w-100">
+					<div class="card-body ">
+						<h4>Total facture prices and taxes in this period <span class="periode">{{debut}} - {{fin}}</span></h4>
+						<div>
+							Total Paied : <span class="totalPaied">{{TotalPrice}}</span> DT - Total Gained :  <span class="totalTax">{{TotalTax}} </span> DT
+						</div>
+						<div class="d-flex justify-content-center">
+							<div style="width: 100%;">
+								<canvas id="canvasPackageFacture"></canvas>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+{% endblock %}
+{% block stylesheets %}
+	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"/>
+	<style>
+
+		.state-stats .card {
+			width: 19%
+		}
+		.state-stats .card i {
+			font-size: 25px;
+		}
+		span.periode{
+display:block;
+font-size:14px;
+}
+	</style>
+{% endblock %}
+{% block javascripts %}
+
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+	<script src="
+								https://cdn.jsdelivr.net/npm/chart.js@4.3.3/dist/chart.umd.min.js
+								"></script>
+
+
+	<script>
+
+$(document).ready(function () {
+		const endDate = new Date();
+const startDate = new Date();
+startDate.setDate(startDate.getDate() - 30);
+var date = String(startDate.getDate()).padStart(2, '0') + "/" + String(startDate.getMonth() + 1).padStart(2, '0') + "/" + String(startDate.getFullYear()) + " - " + String(endDate.getDate()).padStart(2, '0') + "/" + String(endDate.getMonth() + 1).padStart(2, '0') + "/" + String(endDate.getFullYear());
+console.log({
+startDate: String(startDate.getDate()).padStart(2, '0') + "/" + String(startDate.getMonth() + 1).padStart(2, '0') + "/" + String(startDate.getFullYear()),
+endDate: String(endDate.getDate()).padStart(2, '0') + "/" + String(endDate.getMonth() + 1).padStart(2, '0') + "/" + String(endDate.getFullYear())
+
+})
+$('#daterange').daterangepicker()
+
+$('#daterange').on('apply.daterangepicker', function (ev, picker) {
+
+$.ajax({
+url: '/dashboard/filter', // Replace with the actual URL of your Symfony controller endpoint
+method: 'POST',
+data: {
+"debut": picker.startDate.format('YYYY-MM-DD'),
+'fin': picker.endDate.format('YYYY-MM-DD')
+},
+
+success: function (data) {
+$(".periode").each(function () {
+	$(this).text(data.debut+" - "+data.fin);
+})
+
+$(".wating-value").text(data.waiting.length);
+$(".approved-value").text(data.approved.length);
+$(".picked-value").text(data.picked.length);
+$(".delivered-value").text(data.delivered.length);
+$(".returned-value").text(data.returned.length);
+$(".totalPaied").text(data.TotalPrice);
+$(".totalTax").text(data.TotalTax);
+$(".totalPackageDelivery").text(data.TotalPackageDelivery);
+$(".totalPackageExpeditor").text(data.TotalPackageExpeditor);
+const dataExp = {
+labels: data.PackageExpeditor.labels,
+datasets: [
+{
+label: 'Packges ',
+data: data.PackageExpeditor.data
+
+}
+]
+};
+
+
+
+myChartPackage.data = dataExp;
+myChartPackage.update()
+
+
+
+const dataDel = {
+labels: data.PackageDelivery.labels,
+datasets: [
+{
+label: 'Packges ',
+data: data.PackageDelivery.data
+
+}
+]
+};
+
+
+myChartUser.data = dataDel;
+myChartUser.update()
+
+
+
+const dataFact = {
+datasets: [
+{
+type: 'bar',
+label: data.factProc.labels,
+data: data.factProc.data
+}, {
+type: 'bar',
+label: data.factDone.labels,
+data: data.factDone.data
+}
+],
+labels:data.PackageExpeditor.labels
+};
+myChartUserfacture.data = dataFact;
+myChartUserfacture.update()
+
+
+
+},
+
+error: function (xhr, status, error) { // Handle errors if the AJAX call fails
+console.error('Error:', error);
+}
+});
+
+
+});
+
+
+const dataExp = {
+labels: {{ PackageExpeditor['labels'] | json_encode| raw }},
+datasets: [
+{
+label: 'Packges ',
+data: {{ PackageExpeditor['data'] | json_encode| raw }}
+
+}
+]
+};
+const dataDel = {
+labels: {{ PackageDelivery['labels'] | json_encode| raw }},
+datasets: [
+{
+label: 'Packges ',
+data: {{ PackageDelivery['data'] | json_encode| raw }}
+
+}
+]
+};
+
+const dataFact = {
+datasets: [
+{
+type: 'bar',
+label: {{ factProc['labels'] | json_encode| raw }},
+data: {{ factProc['data'] | json_encode| raw }}
+}, {
+type: 'bar',
+label: {{ factDone['labels'] | json_encode| raw }},
+data: {{ factDone['data'] | json_encode| raw }}
+}
+],
+labels: {{ PackageExpeditor['labels'] | json_encode| raw }}
+};
+
+
+const myChartPackage = new Chart($("#canvasPackagePerExpeditor"), {
+type: 'doughnut',
+data: dataExp,
+options: {}
+});
+
+const myChartUser = new Chart($("#canvasPackagePerDelivery"), {
+type: 'polarArea',
+data: dataDel,
+options: {}
+});
+
+
+const myChartUserfacture = new Chart($("#canvasPackageFacture"), {
+data: dataFact,
+options: {}
+});
+
+})
+	</script>
 {% endblock %}

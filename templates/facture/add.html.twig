@@ -1,0 +1,155 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello PackageController!
+{% endblock %}
+
+{% block body %}
+
+	<h1 class="primary-color">Demande of Invoice #{{invoiceId}}</h1>
+	<h3 class="primary-color">List of packages in this new invoice</h3>
+{% set price = 0 %}
+{% set tax = 0 %}
+	<table id="packageList" class="table table-striped" style="width:100%">
+		<thead>
+			<tr>
+			
+				<th>#Ref</th>
+				<th>Label</th>
+				<th>Dest. name</th>
+				<th>Dest. phone</th>
+				<th>Region</th>
+				<th>City</th>
+				<th>Adress</th>
+				<th>Nb. products</th>
+				<th>State</th>
+				<th>Date</th>
+				<th>Price</th>
+				<th>Tax</th>
+				<th>ToTal</th>
+
+			</tr>
+		</thead>
+		<tbody>
+
+	{% for p in packages %}
+				<tr>
+
+
+					<td>#{{p.id}}</td>
+					<td>{{p.label}}</td>
+					<td>{{p.getDestName() }}</td>
+					<td>{{p.getDestPhone()}}</td>
+					<td>{{p.region.label}}</td>
+					<td>{{p.city.label()}}</td>
+					<td>{{p.adress}}</td>
+					<td>{{p.getNbProduct()}}</td>
+					<td>
+						{% if (p.state == "waiting")%}
+							<span class="badge bg-warning  p-2 text-dark">{{p.state | capitalize}}</span>
+						{% elseif (p.state == "picked")  %}
+							<span class="badge bg-info  p-2 text-dark">{{p.state | capitalize}}</span>
+						{% elseif (p.state == "pending")  %}
+							<span class="badge bg-warning  p-2 text-light">{{p.state | capitalize}}</span>
+						{% elseif (p.state == "delivered")  %}
+							<span class="badge bg-success  p-2 text-light">{{p.state | capitalize}}</span>
+						{% elseif (p.state == "approved")  %}
+							<span class="badge bg-dark  p-2 text-light">{{p.state | capitalize}}</span>
+						{% elseif (p.state == "processing")  %}
+							<span class="badge bg-info  p-2 text-light">{{p.state | capitalize}}</span>
+						{% elseif (p.state == "returned")  %}
+							<span class="badge bg-danger  p-2 text-light">{{p.state | capitalize}}</span>
+						{% endif %}
+					</td>
+					<td>
+						{% if (p.state == "waiting")%}
+							{{p.getCreateDate() | date}}
+						{% elseif (p.state == "picked")  %}
+							{{p.getPickedAt() | date}}
+						{% elseif (p.state == "delivered")  %}
+							{{p.getClosedAt() | date}}
+						{% elseif (p.state == "approved")  %}
+							{{p.getValidatedAt() | date}}
+						{% elseif (p.state == "pending")  %}
+							{{p.getPendingAt() | date}}
+						{% elseif (p.state == "processing")  %}
+							{{p.getProcessingAt() | date}}
+						{% elseif (p.state == "returned" )   %}
+							{{p.getClosedAt() | date}}
+						{% elseif (p.state == "delivered" )   %}
+							{{p.getClosedAt() | date}}
+						{% endif %}
+
+
+					</td>
+<td>
+
+
+{% if (p.state == "returned" )   %}
+							0 DT
+						{% elseif (p.state == "delivered" )   %}
+							{{p.price}} DT
+							{%  set price = price + p.price%}
+						{% endif %}
+</td>
+<td>
+
+{% if (p.state == "returned" )   %}
+						{{p.getExpeditor().getFraisDeRetour()}} DT
+						{%  set tax = tax + p.getExpeditor().getFraisDeRetour() %}
+						{% elseif (p.state == "delivered" )   %}
+						{{p.getExpeditor().getFraisDeLivraison()}} DT
+						{% set  tax = tax + p.getExpeditor().getFraisDeLivraison() %}
+
+						{% endif %}
+</td>
+
+<td>
+{% if (p.state == "returned" )   %}
+						{{0 - p.getExpeditor().getFraisDeRetour()}} DT
+					
+						{% elseif (p.state == "delivered" )   %}
+						{{p.price - p.getExpeditor().getFraisDeLivraison()}} DT
+					
+
+						{% endif %}
+
+</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+		<tfoot>
+			<tr>
+				<th></th>
+				
+				<th></th>
+				<th></th>
+				<th></th>
+				<th></th>
+				<th></th>
+				<th></th>
+				<th></th>
+				<th></th>
+				<th>Totals</th>
+				<th>{{price}} DT</th>
+				<th>{{tax}} DT</th>
+				<th>{{price - tax}} DT</th>
+			</tr>
+		</tfoot>
+	</table>
+	<div class="text-end">
+	<button onclick="window.history.back();" class="btn  secondary-bg text-light pt-1 pb-1 ps-3 pe-3">Retrun</button>
+<a href="{{path('app_add_invoice')}}" class="btn primary-bg text-light m-3" title="Add new package">Confirm invoice</a>
+</div>
+{% endblock %}
+{% block stylesheets %}
+	{{ parent() }}
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap5.min.css">
+{% endblock %}
+{% block javascripts %}
+	{{ parent() }}
+
+	<script>
+
+	</script>
+
+{% endblock %}

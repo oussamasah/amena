@@ -23,12 +23,7 @@
 
 		{% block javascripts %}
 			{{ encore_entry_script_tags('app') }}
-			<script>
-				const eventSource = new EventSource("{{ mercure('https://example.com/books/1')|escape('js') }}");
-eventSource.onmessage = event => { // Will be called every time an update is published by the server
-console.log(JSON.parse(event.data));
-}
-			</script>
+
 		{% endblock %}
 		<style>
 			body * {
@@ -62,6 +57,52 @@ console.log(JSON.parse(event.data));
 				font-size: 20px;
 				margin: 5px;
 			}
+			.notifs.dropdown-menu.show ul {
+				list-style: none;
+				padding: 5px;
+			}
+.notifs.dropdown-menu.show {
+    min-width: 600px;
+    padding: 10px;
+    max-height: 700px;
+    overflow-y: scroll;
+}	
+			.notifs.dropdown-menu.show ul li {
+				margin-bottom: 5px;
+				border-bottom: 1px solid #dddddd;
+				padding-bottom: 5px;
+				padding:5px;
+			}
+			ul.dropdown-menu.notifs p,
+			ul.dropdown-menu.notifs span.time {
+				font-size: 12px;
+				line-height: 13px;
+				display: block;
+				margin-bottom: 5px;
+			}
+			.dropdown-menu.notifs span.time {
+				color: grey;
+			}
+			ul.dropdown-menu.notifs a {
+				font-size: 13px;
+				color: #3445b4 !important;
+				display: inline-block !important;
+				font-weight: bold;
+			}
+			.notif_icon {
+				font-size: 30px;
+				font-weight: bold;
+			
+				margin-right: 20px;
+			}
+			.notif_title {
+				font-size: 20px;
+
+				font-weight: bold;
+			}
+			li.notif.active {
+    background: #e8f4ff;
+}
 		</style>
 	</head>
 	<body>
@@ -92,13 +133,22 @@ console.log(JSON.parse(event.data));
 								Packages</a>
 						</li>
 						{%if app.user.getRoles()[0] == "ADMIN_ROLE" %}
-						<li {% if app.request.get('_route') == 'app_expeditor' %} class="active" {% endif %}>
-							<a href="{{path('app_expeditor')}}">
+							<li {% if app.request.get('_route') == 'app_expeditor' %} class="active" {% endif %}>
+								<a href="{{path('app_expeditor')}}">
 									<span class="fa fa-briefcase mr-3"></span>
 									Expeditors</a>
 							</li>
+							<li {% if app.request.get('_route') == 'app_delivery' %} class="active" {% endif %}>
+								<a href="{{path('app_delivery')}}">
+									<span class="fa fa-briefcase mr-3"></span>
+									Deliveries</a>
+							</li>
 						{% endif %}
-
+						<li {% if app.request.get('_route') == 'app_invoice' %} class="active" {% endif %}>
+							<a href="{{path('app_invoice')}}">
+								<span class="fas fa-box-open mr-3"></span>
+								Factures</a>
+						</li>
 						<li>
 							<a href="#">
 								<span class="fa fa-sticky-note mr-3"></span>
@@ -123,13 +173,8 @@ console.log(JSON.parse(event.data));
 					<div class="mb-5"></div>
 					<div class="footer">
 						<div class="d-flex justify-content-space-arround align-items-center">
-							<button type="button" class="btn btn-primary position-relative me-4">
-								<i class="far fa-bell"></i>
-								<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-									99+
-									<span class="visually-hidden">unread messages</span>
-								</span>
-							</button>
+							{% set notifs = render(controller('App\\Controller\\NotificationController::Index')) %}
+							{{ notifs | raw }}
 							<button type="button" class="btn btn-primary position-relative me-4">
 								<i class="fas fa-comments"></i>
 								<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
@@ -163,7 +208,29 @@ console.log(JSON.parse(event.data));
 						</div>
 					</div>
 
-				</body>
-			</html>
+						<script>
+
+
+$(".notif.active").hover(function(){
+	$(this).removeClass("active");
+            const itemId = $(this).data('id');
+
+            // Make the AJAX call to the Symfony controller function
+            $.ajax({
+                url: '/notification/seen/' + itemId,
+                type: 'POST', // Or 'GET' if your controller action is GET
+                dataType: 'json', // Change to 'html' if your controller returns HTML
+                success: function(data) {
+                    // Handle the response from the controller if needed
+                    console.log(data);
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    // Handle AJAX error if needed
+                    console.error('AJAX Error:', textStatus, errorThrown);
+                }
+            });
+
+})
+			</script>
 		</body>
 	</html>

@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Invoice</title>
+		<style>
+			body {
+				font-family: Arial, sans-serif;
+			}
+
+
+
+			.image-table {
+				border-collapse: collapse;
+			}
+
+			.image-table td.logo img {
+				max-width: 200px;
+				max-height: 100px;
+
+
+			}
+			.image-table td.qrcode {
+				text-align: center;
+			}
+			.image-table td.qrcode img {
+				width: 100px;
+			}
+			.image-table td.profile {
+				text-align: right;
+			}
+			.image-table td.profile img {
+				max-width: 200px;
+				max-height: 100px;
+			}
+			.image-table td.logo {
+				text-align: left;
+			}
+			.image-table td {
+
+				padding: 10px;
+				width: 33.33%;
+				text-align: center;
+			}
+
+			.logo {
+				width: 150px;
+				height: 150px;
+			}
+
+			.date {
+				font-size: 18px;
+				margin-top: 10px;
+			}
+
+			.content {
+				margin-bottom: 30px;
+			}
+
+			.content-title {
+				font-weight: bold;
+				margin-bottom: 10px;
+			}
+
+			table {
+				width: 100%;
+				border-collapse: collapse;
+			}
+
+			th,
+			td {
+				padding: 8px;
+				text-align: left;
+			
+			}
+
+			.footer {
+				margin-top: 30px;
+				text-align: right;
+			}
+            table.info {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    
+   table.info  td , table.info  th{
+      border: 1px solid black;
+      padding: 8px;
+      text-align: left;
+    }
+    table.info  th{
+        background:grey;  color:white;
+      
+    }
+		</style>
+	</head>
+	<body>
+		<table class="image-table">
+			<tr>
+				<td class="logo">
+					<img src="{{ logo }}">
+				</td>
+				<td class="qrcode">
+					<img src="{{qrcode}}">
+				</td>
+				<td class="profile">
+					<img src="{{ profile }}">
+				</td>
+			</tr>
+		</table>
+        <hr>
+             <br>     <br>
+		<div class="content-title">Package Trasaction Informations:</div>
+
+		<table class="info">
+        <thead>
+        <tr>
+        <th><div class="content-title">Expeditor</div></th>
+        <th><div class="content-title">Destinator</div></th>
+        </tr>
+        </thead>
+        <tbody>
+            
+       
+			<tr>
+				<td style="width:50%">
+					
+					<p>
+						<strong>Name</strong>
+						{{package.expeditor.name}}</p>
+					<p>
+						<strong>Email :</strong>
+						{{package.expeditor.email}}</p>
+				</td>
+				<td style="width:50%">
+
+					
+					<p>
+						<strong>Recipient Name:</strong>
+						{{package.getDestName()}}</p>
+					<p>
+						<strong>Recipient phone:</strong>
+						{{package.getDestPhone()}}</p>
+					<p>
+						<strong>Recipient region:</strong>
+						{{package.region.label}}</p>
+					<p>
+						<strong>Recipient city:</strong>
+						{{package.city.label}}</p>
+					<p>
+						<strong>Recipient address:</strong>
+						{{package.adress}}</p>
+				</td>
+
+			</tr>
+             </tbody>
+		</table>
+        <br>     <br>
+
+
+		<div class="content-title">Package  Informations:</div>
+		<table class="info">
+			<tr>
+				<td style=" background:grey;  color:white;" >
+					<strong>Ref :</strong>
+				</td>
+				<td >
+					{{package.getId()}}
+				</td>
+			</tr>
+			<tr>
+				<td style=" background:grey;  color:white;">
+					<strong>Type :</strong>
+				</td>
+				<td >
+					Livraison a domicile
+				</td>
+			</tr>
+			<tr>
+				<td style=" background:grey;  color:white;">
+					<strong>NB Product :</strong>
+				</td>
+				<td >
+					{{package.getNbProduct()}}
+				</td>
+			</tr>
+			<tr>
+				<td style=" background:grey;  color:white;">
+					<strong>Label :</strong>
+				</td>
+				<td >
+					{{package.getLabel()}}
+				</td>
+			</tr>
+			<tr>
+				<td style=" background:grey;  color:white;">
+					<strong>Validated at :</strong>
+				</td>
+				<td >
+					{{package.getValidatedAt()| date}}
+				</td>
+			</tr>
+			<tr>
+				<td style=" background:grey;  color:white;">
+					<strong>Price :</strong>
+				</td>
+				<td >
+                	<strong>{{package.price |number_format(3, '.', ',') }} DT</strong>
+					
+				</td>
+			</tr>
+			<tr>
+				<td style="height:100px; background:grey;  color:white;">
+					<strong>Signiatures :</strong>
+				</td>
+				<td style="height:80px;" >
+					
+				</td>
+			</tr>
+		</table>
+      
+    
+
+        
+
+{# 		<table class="image-table">
+			<tr>
+				<td class="logo">
+					<img src="{{ logo }}">
+				</td>
+				<td class="qrcode">
+					<img src="{{qrcode}}">
+				</td>
+				<td class="profile">
+					<img src="{{ profile }}">
+				</td>
+			</tr>
+		</table> #}
+	</body>
+</html>

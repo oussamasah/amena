@@ -1,0 +1,111 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello PackageController!{% endblock %}
+
+{% block body %}
+{% if (app.request.get('msg')) %}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+ {{app.request.get('msg')}}
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endif %}
+{% if (app.request.get('error')) %}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+ {{app.request.get('error')}}
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endif %}
+<h1 class="primary-color">LIST OF YOUR DELIVERIES</h1>
+<a href="{{path('app_add_delivery')}}" class="btn secondary-bg text-light m-3" title="Add new package">Add New delivery</a>
+   <table id="expeditorList" class="table table-striped" style="width:100%">
+        <thead>
+            <tr>
+              <th>Logo</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Region</th>
+          
+                <th>City</th>
+                <th>Adress</th>
+                <th>identity</th>
+                <th>Phone</th>
+                <th>State</th>
+                <th>Action</th>
+              
+            </tr>
+        </thead>
+        <tbody>
+
+        {% for p in delivery %}
+            <tr>
+                <td> {%if (p.photo != null)  %}
+               <img class="img rounded" style="width:50px;" src="{{ asset('upload/img/'~ p.photo)  }}" />
+                {% else %}
+               <img class="img rounded"  style="width:50px;" src="{{ asset('img/profile.png') }}" />
+
+                {% endif %}
+                </td>
+                <td>{{p.name}}</td>
+                <td>{{p.getEmail() }}</td>
+                <td>{{p.region.label()}}</td>
+                <td>{{p.city.label}}</td>
+                <td>{{p.adress()}}</td>
+                <td>{{p.identity}}</td>
+                <td>{{p.phone}}</td>
+                <td>
+                							{% if (p.getState() == "active" )%}
+								<span class="badge bg-success  p-2 text-light">Active</span>
+							{% elseif (p.getState() == "waiting" ) %}
+								<span class="badge bg-warning  p-2 text-dark">Waiting</span>
+							{% else %}
+								<span class="badge bg-danger  p-2 text-light">Inactive</span>
+
+
+							{% endif %}
+                </td>
+
+           
+                 <td class="actions">
+                 <a  title="Approve" {% if p.state == "waiting" or p.state == "inactive" %} href="{{path('app_activate_delivery', {id: p.id})}}" onclick="return confirm('are u sure to activate this delivery ?')" class="primary-color"  {% else %} href="{{path('app_inactive_delivery', {id: p.id})}}" onclick="return confirm('are u sure to disactivate this delivery ?')"  {% endif %}>{% if p.state == "waiting" or p.state == "inactive" %}<i class="far fa-box-check"></i>{% elseif p.state == "active" %}<i class="far fa-exclamation-triangle"></i>{% endif %}</a>
+                 <a  title="Edit"  href="{{path('app_edit_delivery', {id: p.id})}}" class="primary-color" ><i class="fas fa-edit"></i></a>
+                
+                 {# <a  title="pdf" {% if p.state == "approved" %} href="{{path('app_pdf_package', {id: p.id})}}"   class="text-muted" {% endif %}><i class="far fa-box-check"></i></a>
+                 <a  title="Edit"  {% if p.state == "waiting" %}  href="{{path('app_edit_package', {id: p.id})}}" class="primary-color" {% else %} href="javascript:void(0)"  class="text-muted" {% endif %}><i class="fas fa-edit"></i></a>
+                 <a   title="Delete"   {% if p.state == "waiting" %} href="{{path('app_delete_package', {id: p.id})}}" onclick="return confirm('are u sure to delete this package ?')" class="primary-color" {% else %} href="javascript:void(0)"  class="text-muted" {% endif %}><i class="fas fa-trash"></i></a>
+                  #}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <th>Logo</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Region</th>
+          
+                <th>City</th>
+                <th>Adress</th>
+                <th>identity</th>
+                <th>Phone</th>
+                <th>State</th>
+                <th>Action</th>
+            </tr>
+        </tfoot>
+    </table>
+{% endblock %}
+{% block stylesheets %}
+ {{ parent() }}
+<link rel="stylesheet"  href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap5.min.css">
+{% endblock %}
+{% block javascripts %}
+ {{ parent() }}
+<script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js" ></script>
+<script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"></script>
+<script>
+    $(document).ready(function () {
+      
+    $('#expeditorList').DataTable();
+});
+</script>
+
+{% endblock %}

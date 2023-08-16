@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\PackageRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -53,6 +55,28 @@ class Package
 
     #[ORM\ManyToOne(inversedBy: 'deliverypackages')]
     private ?User $delivery = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $validated_at = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $pickedAt = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $pendingAt = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $processingAt = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $closedAt = null;
+
+    #[ORM\ManyToOne(inversedBy: 'package')]
+    private ?Facture $facture = null;
+
+
+
+
 
     public function getId(): ?int
     {
@@ -210,6 +234,81 @@ class Package
     public function setDelivery(?User $delivery): self
     {
         $this->delivery = $delivery;
+
+        return $this;
+    }
+
+    public function getValidatedAt(): ?\DateTimeInterface
+    {
+        return $this->validated_at;
+    }
+
+    public function setValidatedAt(?\DateTimeInterface $validated_at): self
+    {
+        $this->validated_at = $validated_at;
+
+        return $this;
+    }
+
+    public function getPickedAt(): ?\DateTimeInterface
+    {
+        return $this->pickedAt;
+    }
+
+    public function setPickedAt(?\DateTimeInterface $pickedAt): self
+    {
+        $this->pickedAt = $pickedAt;
+
+        return $this;
+    }
+
+    public function getPendingAt(): ?\DateTimeInterface
+    {
+        return $this->pendingAt;
+    }
+
+    public function setPendingAt(?\DateTimeInterface $pendingAt): self
+    {
+        $this->pendingAt = $pendingAt;
+
+        return $this;
+    }
+
+    public function getProcessingAt(): ?\DateTimeInterface
+    {
+        return $this->processingAt;
+    }
+
+    public function setProcessingAt(?\DateTimeInterface $processingAt): self
+    {
+        $this->processingAt = $processingAt;
+
+        return $this;
+    }
+
+    public function getClosedAt(): ?\DateTimeInterface
+    {
+        return $this->closedAt;
+    }
+
+    public function setClosedAt(?\DateTimeInterface $closedAt): self
+    {
+        $this->closedAt = $closedAt;
+
+        return $this;
+    }
+
+
+  
+
+    public function getFacture(): ?Facture
+    {
+        return $this->facture;
+    }
+
+    public function setFacture(?Facture $facture): static
+    {
+        $this->facture = $facture;
 
         return $this;
     }

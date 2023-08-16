@@ -54,8 +54,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToOne(inversedBy: 'account')]
     private ?Account $account = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $code = null;
 
     #[ORM\ManyToOne(inversedBy: 'users')]
     private ?Region $region = null;
@@ -63,10 +61,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToOne(inversedBy: 'users')]
     private ?City $city = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $frais_de_livraison = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $frais_de_retour = null;
+
+    #[ORM\OneToMany(mappedBy: 'expeditor', targetEntity: Facture::class)]
+    private Collection $factures;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Notification::class)]
+    private Collection $notifications;
+
+    #[ORM\Column(length: 255)]
+    private ?string $phone = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $state = null;
+
     public function __construct()
     {
         $this->packages = new ArrayCollection();
         $this->deliverypackages = new ArrayCollection();
+        $this->factures = new ArrayCollection();
+        $this->notifications = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -287,14 +305,112 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getCode(): ?string
+
+
+    public function getFraisDeLivraison(): ?int
     {
-        return $this->code;
+        return $this->frais_de_livraison;
     }
 
-    public function setCode(string $code): self
+    public function setFraisDeLivraison(?int $frais_de_livraison): self
     {
-        $this->code = $code;
+        $this->frais_de_livraison = $frais_de_livraison;
+
+        return $this;
+    }
+
+    public function getFraisDeRetour(): ?int
+    {
+        return $this->frais_de_retour;
+    }
+
+    public function setFraisDeRetour(?int $frais_de_retour): self
+    {
+        $this->frais_de_retour = $frais_de_retour;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Facture>
+     */
+    public function getFactures(): Collection
+    {
+        return $this->factures;
+    }
+
+    public function addFacture(Facture $facture): static
+    {
+        if (!$this->factures->contains($facture)) {
+            $this->factures->add($facture);
+            $facture->setExpeditor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFacture(Facture $facture): static
+    {
+        if ($this->factures->removeElement($facture)) {
+            // set the owning side to null (unless already changed)
+            if ($facture->getExpeditor() === $this) {
+                $facture->setExpeditor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Notification>
+     */
+    public function getNotifications(): Collection
+    {
+        return $this->notifications;
+    }
+
+    public function addNotification(Notification $notification): static
+    {
+        if (!$this->notifications->contains($notification)) {
+            $this->notifications->add($notification);
+            $notification->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNotification(Notification $notification): static
+    {
+        if ($this->notifications->removeElement($notification)) {
+            // set the owning side to null (unless already changed)
+            if ($notification->getUser() === $this) {
+                $notification->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(string $phone): static
+    {
+        $this->phone = $phone;
+
+        return $this;
+    }
+
+    public function getState(): ?string
+    {
+        return $this->state;
+    }
+
+    public function setState(string $state): static
+    {
+        $this->state = $state;
 
         return $this;
     }

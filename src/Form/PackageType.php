@@ -43,6 +43,7 @@ class PackageType extends AbstractType
                     'Waiting' => "waiting",
                     'Approved' => "approved",
                     'Picked' => "picked",
+                    'Processing' => "processing",
                     'Delivered' => "delivered",
                     'Returned' => "returned",
                 ],
@@ -51,7 +52,7 @@ class PackageType extends AbstractType
                 "class"=>User::class,
                 'query_builder' =>  function(UserRepository $userRep)
                 {
-                    return $userRep->createQueryBuilder("u")->andWhere('u.roles LIKE \'%DELIVERY_ROLE%\' ');
+                    return $userRep->createQueryBuilder("u")->andWhere('u.roles LIKE \'%DELIVERY_ROLE%\' ')->andWhere('u.state LIKE \'%active%\' ');
                 },
                 'choice_label' => 'name',
                 "expanded"=>false,

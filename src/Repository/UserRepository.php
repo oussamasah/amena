@@ -80,6 +80,28 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 //            ->getOneOrNullResult()
 //        ;
 //    }
+   public function findByRoleByAccount($role,$acc): User
+   {
+       return $this->createQueryBuilder('u')
+       ->andWhere('u.roles LIKE :role')
+           ->setParameter('role','%'.$role.'%')
+           ->andWhere('u.account = :account')
+           ->setParameter('account',$acc)
+           ->getQuery()
+           ->getOneOrNullResult()
+       ;
+   } public function findBybyRoleByAccount($role,$acc): array
+   {
+       return $this->createQueryBuilder('u')
+      
+       ->andWhere('u.roles LIKE :role')
+           ->setParameter('role','%'.$role.'%')
+           ->andWhere('u.account = :account')
+           ->setParameter('account',$acc)
+           ->getQuery()
+           ->getResult()
+       ;
+   }
    public function findByRole($role): array
    {
        return $this->createQueryBuilder('u')
@@ -100,4 +122,17 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
            ->getResult()
        ;
    }
+   public function findDeliveryByAccount($Account): array
+   {
+       return $this->createQueryBuilder('u')
+       ->andWhere('u.account = :account')
+           ->setParameter('account',$Account)
+           ->andWhere('u.roles LIKE :role')
+           ->setParameter('role','%DELIVERY%')
+           ->getQuery()
+           ->getResult()
+       ;
+   }
+
+
 }

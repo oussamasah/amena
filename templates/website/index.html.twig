@@ -1,0 +1,527 @@
+<html>
+    <head>
+        <title></title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+<link rel="stylesheet" href="{{ asset('css/website.css') }}">
+<script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+  />
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    </head>
+    <body>
+<header class="scroll-header">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container">
+  
+    <a href="index.html" class=" navbar-brand logo">AmenaExpress
+							<span>Delivery</span>
+						</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Features</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Pricing</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+</header>
+<div>
+
+            <div class="swiper">
+  <!-- Parallax background element -->
+		<div class="parallax-bg" style="background-image: url('{{ asset('img/bgwebsite.jpg') }}');"
+			data-swiper-parallax="-23%"></div>
+  <div class="swiper-wrapper">
+    <div class="swiper-slide d-flex align-items-center">
+    <div class="slide-content"  >
+      <!-- Each slide has parallax title -->
+      <div class="title" data-swiper-parallax="-1000" data-swiper-parallax-duration="1000">Elevate Your Package Delivery Experience with Our Platform!</div>
+      <!-- And parallax text with custom transition duration -->
+      <div
+        class="text"
+        data-swiper-parallax="-2000"
+        data-swiper-parallax-duration="1000"
+      >
+        <p>Join our ever-growing community of satisfied businesses who have taken their delivery experience to the next level. Experience efficiency, reliability, and customer satisfaction like never before. Don't miss out – join our platform today and elevate your delivery game!"</p> </div>
+      <!-- Opacity parallax -->
+      <div data-swiper-parallax-opacity="0.5">
+    <button class="learn-more">
+  <a href="{{path('app_website_signup_expeditor')}}" title="sign up as delivery" >
+    <span class="circle" aria-hidden="true">
+      <span class="icon arrow"></span>
+    </span>    <span class="button-text">Join our Expeditors</span>
+
+    </a>
+  </button>         
+      </div>
+
+      </div>
+      <div class="slide-img"    data-swiper-parallax="+9000"
+        data-swiper-parallax-duration="1000">
+        <img src="{{ asset('img/img-slide-1.png') }}" alt="">
+      </div>
+    </div>
+    <div class="swiper-slide d-flex align-items-center">
+    <div class="slide-content"  >
+      <!-- Each slide has parallax title -->
+      <div class="title" data-swiper-parallax="-1000" data-swiper-parallax-duration="1000">Ready to Drive Your Earnings? Join Us for Effortless Deliveries and Reliable Income!</div>
+      <!-- And parallax text with custom transition duration -->
+      <div
+        class="text"
+        data-swiper-parallax="-2000"
+        data-swiper-parallax-duration="1000"
+      >
+        <p>Are you ready to transform your driving time into a consistent income stream? Look no further. With us, it's not just about making deliveries – it's about securing your financial future with ease. Embrace the freedom of flexible hours and personalized routes while we ensure your efforts translate into a reliable salary. Say goodbye to uncertainty and hello to a fulfilling journey where every delivery brings you one step closer to the salary you deserve. Join us today and experience the thrill of delivering with a purpose – all while earning with unparalleled ease. Your road to financial success starts here. </p> </div>
+      <!-- Opacity parallax -->
+      <div data-swiper-parallax-opacity="0.5">
+  <button class="learn-more">
+  <a href="{{path('app_website_signup_delivery')}}" title="sign up as delivery" >
+    <span class="circle" aria-hidden="true">
+      <span class="icon arrow"></span>
+    </span>
+    <span class="button-text">Sign up now!</span>
+    </a>
+  </button>     
+      </div>
+
+      </div>
+      <div class="slide-img"    data-swiper-parallax="-9000"
+        data-swiper-parallax-duration="1000">
+        <img src="{{ asset('img/slider-2.png') }}" alt="">
+      </div>
+    </div>
+    <div class="swiper-slide d-flex align-items-center">
+    <div class="slide-content"  >
+      <!-- Each slide has parallax title -->
+      <div class="title" data-swiper-parallax="-1000" data-swiper-parallax-duration="1000">Revolutionize Your Deliveries with Our Cutting-Edge Management System!</div>
+      <!-- And parallax text with custom transition duration -->
+      <div
+        class="text"
+        data-swiper-parallax="-2000"
+        data-swiper-parallax-duration="1000"
+      >
+        <p>Are you tired of the complexities of managing deliveries and expediting tasks? Streamline your operations and take control like never before with our advanced delivery management system. Whether you're a delivery professional or an expeditor seeking efficiency, our platform empowers you to orchestrate deliveries seamlessly. From optimized routes to real-time tracking, we've got you covered. Join us today and experience a new era of delivery management that simplifies logistics and maximizes results. Sign up now to transform the way you deliver and expedite!"</p> </div>
+      <!-- Opacity parallax -->
+      <div data-swiper-parallax-opacity="0.5">
+    <button class="learn-more">
+  <a href="{{path('app_website_signup_expeditor')}}" title="sign up as delivery" >
+    <span class="circle" aria-hidden="true">
+      <span class="icon arrow"></span>
+    </span>    <span class="button-text">Join our Expeditors</span>
+
+    </a>
+  </button>  
+      <button class="learn-more">
+  <a href="{{path('app_website_signup_delivery')}}" title="sign up as delivery" >
+    <span class="circle" aria-hidden="true">
+      <span class="icon arrow"></span>
+    </span>    <span class="button-text">Join our Deliveries</span>
+
+    </a>
+  </button>       
+      </div>
+
+      </div>
+      <div class="slide-img"    data-swiper-parallax="-9000"
+        data-swiper-parallax-duration="1000">
+        <img src="{{ asset('img/slider-3.png') }}" alt="">
+      </div>
+    </div>
+
+  </div>
+   <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+     <div class="swiper-pagination"></div>
+</div>	<!-- Swiper JS -->
+{#      <svg id="curveUpColor" xmlns="http://www.w3.org/2000/svg" version="1.1" width="100%" height="100" viewBox="0 0 100 100" preserveAspectRatio="none">
+				<path d="M0 100 C 20 0 50 0 100 100 Z"/>
+			</svg> #}
+            <div class="swipe-down">  
+
+<a href="#content" title="Slide to content">
+<img  class="animate__animated animate__bounce animate__slower animate__infinite" src="{{ asset('img/swipe-down.png') }}" alt="Slide">
+    </a>
+</div>
+</div>
+
+
+
+ 
+<section id="content" class="expeditor-services">
+<div class="container">
+   <div class="row justify-content-start align-items-start gap-4">
+    <div class="col"><h2 class="separator">Empower Your Expeditor Journey</h2><p>Are you an expeditor looking to revolutionize the way you handle critical tasks? Look no further. At AmenaExpress, we invite you to join our platform and unlock a world of advantages tailored to your expertise. As an expeditor, your time is invaluable, and our platform is designed to enhance your efficiency and streamline your operations like never before.</p></div>
+   
+   </div>
+   <div class="row justify-content-start align-items-start gap-4">
+    <div class="col">
+    <ul>
+        <li data-aos="fade-down"
+     data-aos-easing="linear"
+    >
+        <div class="d-flex justify-content-start align-items-center mb-3"> 
+        <img class="service-icon me-3   " src="{{ asset('img/clock.png') }}" alt="">
+        <h3>Time Optimization</h3>
+            
+        </div>
+<p>our expertise lies in timely execution. With our platform, you'll have the tools to master time management, ensuring your tasks are handled swiftly and professionally.</p>
+        </li>
+                <li data-aos="fade-up"
+    >
+        <div class="d-flex justify-content-start align-items-center mb-3"> 
+        <img class="service-icon me-3   " src="{{ asset('img/priority.png') }}" alt="">
+        <h3>Priority Handling</h3>
+            
+        </div>
+<p>When urgency is paramount, our priority handling services ensure your tasks are given top priority. Your critical tasks will receive the attention they deserve, minimizing bottlenecks and maximizing efficiency.</p>
+        </li>
+    </ul>
+
+    </div>  
+    <div class="col">
+    <ul>
+        <li data-aos="fade-left"
+    >
+        <div class="d-flex justify-content-start align-items-center mb-3"> 
+        <img class="service-icon me-3   " src="{{ asset('img/invoice.png') }}" alt="">
+        <h3>Document Retrieval</h3>
+            
+        </div>
+<p>Need essential documents at your fingertips? Our document retrieval service ensures you have the necessary paperwork when you need it, eliminating delays and ensuring smooth operations.</p>
+        </li>
+                <li data-aos="fade-left"
+    >
+        <div class="d-flex justify-content-start align-items-center mb-3"> 
+        <img class="service-icon me-3   " src="{{ asset('img/sync.png') }}" alt="">
+        <h3>Real-time Updates</h3>
+            
+        </div>
+<p>Stay in control and keep your clients informed. Our real-time tracking and updates feature allows you to monitor task progress and provide accurate information whenever needed.</p>
+        </li>
+    </ul>
+    </div>
+
+</div>
+
+    
+</section>
+<section class="section-three" style="background-image: url('{{ asset('img/close-up-woman-signing-pack.jpg') }}');">
+    
+</section>
+<section class="section-four pb-0">
+    <div class="container position-relative invoice" data-aos="zoom-in-up">
+       <div class="row justify-content-center align-items-center g-2  " >
+        <div class="col">
+            <div >
+                <h3 class="separator">Instant Invoicing</h3>
+                <p>Bid farewell to delays in receiving your dues. With our platform, you can generate invoices instantly, ensuring that your hard work is accurately documented and ready for payment.</p>
+            </div>
+        </div>
+        <div class="col">
+                        <img class="w-100" src="{{ asset('img/11684798_4770613.jpg') }}" alt="">
+
+        </div>
+       </div>
+       <div class="row justify-content-center align-items-center g-2  " >
+        <div class="col">
+         <img class="w-100" src="{{ asset('img/11107366_4664720.jpg') }}" alt="">
+
+        </div>
+        <div class="col">
+                      <div >
+                <h3 class="separator">Streamlined Workflow</h3>
+                <p>Our interaction and notification system is designed to enhance your workflow, helping you manage tasks efficiently and keeping you focused on what matters most.</p>
+            </div>  
+        </div>
+       </div>
+    </div>
+</section>
+<section class="section-five">
+    <div class="container-fluid position-relative" data-aos="zoom-in-up">
+       <div class="row justify-content-center align-items-center g-5  " >
+        <div class="col position-relative gradien-color " >
+ <img class="w-100 img-gradien" src="{{ asset('img/carlos-muza-hpjSkU2UYSU-unsplash.jpg') }}" alt="">
+        </div>
+        <div class="col ps-5 insight">
+                                           <div >
+                <h3 class="separator">Experience the Power of Real-Time Insights </h3>
+                <p>In the fast-paced world of expediting, staying ahead requires more than just quick actions – it requires instant knowledge. At AmenaExpress, we're committed to delivering real-time insights that empower your decision-making and transform the way you manage tasks.</p>
+ <ul>
+                <li>
+                            <h6>Timely Decision-Making</h6>
+            <p>Our real-time insights provide you with up-to-the-minute information, allowing you to make informed decisions promptly, optimizing your tasks for success.</p>
+           
+                </li>
+                <li>
+                            <h6>Task Progress Tracking</h6>
+            <p>Wondering about the status of your assignments? With our platform, you can track task progress in real-time, ensuring transparency and accurate updates.</p>
+           
+                </li>
+                <li>
+                            <h6>Efficiency at its Best:</h6>
+            <p>Real-time insights streamline your workflow, helping you identify bottlenecks and opportunities for improvement, resulting in increased efficiency and productivity.</p>
+           
+                </li>
+            </ul>
+            </div>  
+
+        </div>
+       </div>
+
+    </div>
+</section>
+<section class="invite">
+    .<div class="container">
+     .<div class="row justify-content-center align-items-center g-2 ">
+        <div class="col"><h3 class="separator">Choose Your Path: Sign Up as a Delivery Pro or Expeditor Extraordinaire!</h3>
+        <p>Are you ready to embark on a journey that aligns with your expertise? At AmenaExpress, we offer two distinct avenues for you to thrive: as a skilled delivery professional or a masterful expeditor. It's time to select the path that best resonates with your strengths and aspirations.</p>
+        </div>
+
+     </div>
+     .<div class="row justify-content-center align-items-center g-2">
+       <div class="col">
+    
+ <img class="w-100" src="{{ asset('img/img-slide-1.jpg') }}" alt="">
+  </div>
+        <div class="col" data-aos="zoom-in-left"><h6>Join as a Delivery Pro!</h6> 
+        <p>Hit the road and earn on your terms.</p>
+     
+  
+    <button class="learn-more">
+  <a href="{{path('app_website_signup_delivery')}}" title="sign up as delivery" >
+    <span class="circle" aria-hidden="true">
+      <span class="icon arrow"></span>
+    </span>    <span class="button-text">Join our deliveries</span>
+
+    </a>
+
+   </div>
+
+  
+                <div class="col" data-aos="zoom-in-left" data-aos-delay="300"><h6>Enroll as an Expeditor Extraordinaire!</h6> 
+        <p>Your knack for precision meets real-time tasks.</p>
+        </button>  
+    <button class="learn-more">
+  <a href="{{path('app_website_signup_expeditor')}}" title="sign up as delivery" >
+    <span class="circle" aria-hidden="true">
+      <span class="icon arrow"></span>
+    </span>    <span class="button-text">Join our Expeditors</span>
+
+    </a>
+  </button>    </div>
+     
+     
+    </div>
+    
+</section>
+	<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+	<!-- Initialize Swiper -->
+	<script>
+		var swiper = new Swiper('.swiper', {
+      speed: 600,
+      parallax: true,
+ pagination: {
+        el: ".swiper-pagination",
+        type: "progressbar",
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+            autoplay: {
+        delay: 2500,
+        disableOnInteraction: false,
+      },
+      rewind: true,
+    });
+    document.querySelectorAll('.button').forEach((elem) => {
+
+	const canvas = elem.querySelector('.button__canvas')
+	const ctx = canvas.getContext('2d')
+	
+	const offset = 32
+	const background = '#eef'
+	const foreground = '#7551e9'
+
+	let points = []
+	let position
+	
+	const distance = new Ola({
+		value: offset
+	})
+
+	const size = () => {
+
+		canvas.width = canvas.getBoundingClientRect().width
+		canvas.height = canvas.getBoundingClientRect().height
+		
+		position = new Ola({
+			x: canvas.width / 2,
+			y: canvas.height / 2
+		})
+		
+		const pixelsWidth = canvas.width - offset * 2
+		const pixelsHeight = canvas.height - offset * 2
+		
+		const leftTop = [ offset, offset ]
+		const rightTop = [ canvas.width - offset, offset ]
+		const rightBottom = [ canvas.width - offset, canvas.height - offset ]
+		const leftBottom = [ offset, canvas.height - offset ]
+		
+		points = []
+
+		Array(pixelsWidth).fill().forEach((_, index) => {
+			points.push([
+				leftTop[0] + index,
+				leftTop[1]
+			])
+		})
+		
+		Array(pixelsHeight).fill().forEach((_, index) => {
+			points.push([
+				rightTop[0],
+				rightTop[1] + index
+			])
+		})
+		
+		Array(pixelsWidth).fill().forEach((_, index) => {
+			points.push([
+				rightBottom[0] - index,
+				rightBottom[1]
+			])
+		})
+		
+		Array(pixelsHeight).fill().forEach((_, index) => {
+			points.push([
+				leftBottom[0],
+				leftBottom[1] - index
+			])
+		})
+		
+	}
+
+	size()
+	
+	const reset = () => {
+
+		ctx.fillStyle = background
+		ctx.fillRect(0, 0, canvas.width, canvas.height)
+
+	}
+
+	const draw = () => {
+
+		ctx.fillStyle = foreground
+		ctx.beginPath()
+		
+		points.forEach((point, index) => {
+			
+			const [ vx, vy ] = attract(point)
+						
+			if (index === 0) ctx.moveTo(vx, vy)
+			else ctx.lineTo(vx, vy)
+						
+		})
+		
+		ctx.closePath()
+		ctx.fill()
+
+	}
+	
+	const attract = (point) => {
+				
+		const [ x, y ] = point
+
+		const dx = x - position.x
+		const dy = y - position.y
+		
+		const dist = Math.sqrt(dx * dx + dy * dy)
+		const dist2 = Math.max(1, dist)
+		
+		const d = Math.min(dist2, Math.max(12, (dist2 / 4) - dist2))
+		const D = dist2 * distance.value
+		
+		return [
+			x + (d / D) * (position.x - x),
+			y + (d / D) * (position.y - y)
+		]
+
+	}
+
+	const loop = () => {
+		reset()
+		draw()
+		requestAnimationFrame(loop)
+	}
+
+	window.onresize = size
+
+	canvas.onmousemove = (e) => {
+
+		position.set({
+			x: e.clientX - e.target.getBoundingClientRect().left,
+			y: e.clientY - e.target.getBoundingClientRect().top
+		}, 200)
+	
+	}
+	
+	canvas.onmouseenter = () => {
+		
+		distance.set({
+			value: 1
+		}, 200)
+		
+	}
+	
+	canvas.onmouseleave = () => {
+		
+		position.set({
+			x: canvas.width / 2,
+			y: canvas.height / 2
+		}, 2000)
+		
+		distance.set({
+			value: offset
+		}, 12000)
+		
+	}
+
+	loop()
+
+})
+$(document).ready(function() {
+  $(window).scroll(function() {
+    if ($(this).scrollTop() > 100) { // Adjust the scroll position at which the background changes
+      $('.scroll-header').addClass('scrolled');
+    } else {
+      $('.scroll-header').removeClass('scrolled');
+    }
+  });
+});
+	</script>
+    <script>
+  AOS.init();
+</script>
+    </body>
+</html>

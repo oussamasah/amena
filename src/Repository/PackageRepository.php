@@ -73,20 +73,46 @@ public function getWithState($state,$id,$debut,$fin): ?array
            ->setParameter('id', $id)
            ->andWhere('p.create_date >= :debut')
            ->setParameter('debut', $debut)
-           ->andWhere('p.create_date >= :fin')
+           ->andWhere('p.create_date <= :fin')
            ->setParameter('fin', $fin)
+           ->orderBy('p.validated_at', 'DESC')
+
            ->getQuery()
             ->getResult()
        ;
    }
 
-public function findAllForAdmin(): ?array
+public function getWithStateforAdmin($state,$id,$debut,$fin): ?array
    {
        return $this->createQueryBuilder('p')
+       ->join('p.expeditor', 'u')
+           ->andWhere('p.state = :val')
+           ->setParameter('val', $state)
+           ->andWhere('u.account = :a')
+           ->setParameter('a', $id)
+           ->andWhere('p.create_date >= :debut')
+           ->setParameter('debut', $debut)
+           ->andWhere('p.create_date <= :fin')
+           ->setParameter('fin', $fin)
+           ->orderBy('p.validated_at', 'DESC')
+
+           ->getQuery()
+            ->getResult()
+       ;
+   }
+
+public function findAllForAdmin($id): ?array
+   {
+    return $this->createQueryBuilder("p")
+       ->join('p.expeditor', 'u')
            ->andWhere('p.state != :val')
            ->setParameter('val', "waiting")
+           ->andWhere('u.account = :a')
+           ->setParameter('a', $id)
+           ->orderBy('p.validated_at', 'DESC')
            ->getQuery()
-            ->getResult();
+            ->getResult(); 
+
        
    }
 
@@ -95,7 +121,72 @@ public function findAllForDelivery($id): ?array
        return $this->createQueryBuilder('p')
            ->andWhere('p.delivery = :id')
            ->setParameter('id', $id)
+           ->orderBy('p.validated_at', 'DESC')
+
            ->getQuery()
             ->getResult();
    }
+   
+public function findAllForExpeditor($id): ?array
+{
+    return $this->createQueryBuilder('p')
+        ->andWhere('p.expeditor = :id')
+        ->setParameter('id', $id)
+        ->orderBy('p.validated_at', 'DESC')
+
+        ->getQuery()
+         ->getResult();
+}   
+public function findAllForExpeditorInvoice($id): ?array
+{
+    return $this->createQueryBuilder('p')
+        ->andWhere('p.expeditor = :id')
+        ->setParameter('id', $id)
+         ->andWhere('p.facture is null')
+   
+        ->andWhere($this->createQueryBuilder('p')->expr()->orX(
+            $this->createQueryBuilder('p')->expr()->eq('p.state', ':delivered'),
+            $this->createQueryBuilder('p')->expr()->eq('p.state', ':returned')
+        ))
+        ->setParameter('delivered', 'delivered')
+        ->setParameter('returned', 'returned')
+        ->orderBy('p.validated_at', 'DESC')
+
+        ->getQuery()
+         ->getResult();
+}
+
+public function findPackagesCountByExpeditorAndDateRange(int $expeditorId,  $startDate,  $endDate):array
+{
+   
+    $qb = $this->createQueryBuilder('p')
+        
+        ->where('p.expeditor = :expeditorId')
+         ->andWhere('p.validated_at >= :startDate')
+        ->andWhere('p.validated_at <= :endDate') 
+       // ->groupBy('u.id')
+        ->setParameter('expeditorId', $expeditorId)
+       ->setParameter('startDate', $startDate." 00:00:00")
+        ->setParameter('endDate', $endDate." 23:59:59")
+;
+    return $qb->getQuery()->getResult();
+}
+
+public function findPackagesCountByDeliveryAndDateRange(int $deliveryId, \DateTimeInterface $startDate, \DateTimeInterface $endDate):array
+{
+   
+    $qb = $this->createQueryBuilder('p')
+        
+        ->where('p.delivery = :deliveryId')
+         ->andWhere('p.validated_at >= :startDate')
+        ->andWhere('p.validated_at <= :endDate') 
+       // ->groupBy('u.id')
+        ->setParameter('deliveryId', $deliveryId)
+       ->setParameter('startDate', $startDate)
+        ->setParameter('endDate', $endDate)
+;
+    return $qb->getQuery()->getResult();
+}
+
+
 }

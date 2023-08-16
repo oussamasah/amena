@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Form\ExpeditorType;
+use App\Form\EditExpeditorType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\SecurityBundle\Security;
 use Doctrine\Persistence\ManagerRegistry;
@@ -21,15 +22,14 @@ class ExpeditorController extends AbstractController
     {
         $this->security = $security;
         $this->entityManager = $doctrine->getManager();
+        $this->user= $this->security->getUser();
+
 
     }
     #[Route('/expeditor', name: 'app_expeditor')]
     public function index(): Response
     {
-        $this->user= $this->security->getUser();
-        if(!$this->user){
-            return $this->RedirectToRoute('app_login');    
-        }
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
 
         if (in_array('ADMIN_ROLE', $this->user->getRoles(), true)) {
 
@@ -53,10 +53,9 @@ class ExpeditorController extends AbstractController
     #[Route('/expeditor/add', name: 'app_add_expeditor')]
     public function add(Request $req, SluggerInterface $slugger,UserPasswordHasherInterface $passwordHasher): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
         $this->user= $this->security->getUser();
-        if(!$this->user){
-            return $this->RedirectToRoute('app_login');    
-        }
+
         $user = new User();
 
         $form = $this->createForm(ExpeditorType::class,$user);
@@ -95,6 +94,7 @@ class ExpeditorController extends AbstractController
             );
             $user->setPassword($hashedPassword);
             $user->setRoles(['EXPEDITOR_ROLE']);
+            $user->setState(['active']);
             $this->entityManager->persist($user);
             $this->entityManager->flush();
           return  $this->redirectToRoute('app_expeditor',array('msg' => "Expeditor added successfuly"));
@@ -104,5 +104,59 @@ class ExpeditorController extends AbstractController
         ]); 
 
 
+    }
+    #[Route('/expeditor/edit/{id}', name: 'app_edit_expeditor')]
+    public function edit(Request $req,$id, SluggerInterface $slugger,UserPasswordHasherInterface $passwordHasher): Response
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
+        $this->user= $this->security->getUser();
+        $expeditor =  $this->entityManager->getRepository(User::class)->find($id);
+
+        $user = $expeditor;
+        
+        $form = $this->createForm(EditExpeditorType::class,$user);
+        $form->handlerequest($req);
+       
+        if($form->isSubmitted()  && $form->isValid()){
+            $this->entityManager->persist($user);
+            $this->entityManager->flush();
+          return  $this->redirectToRoute('app_expeditor',array('msg' => "Expeditor updated successfuly"));
+        }
+        return $this->render('expeditor/edit.html.twig', [
+            'form' => $form->createView(),
+        ]); 
+
+
+    }
+    
+    #[Route('/expeditor/activate/{id}', name: 'app_activate_expeditor')]
+    public function activate(Request $req, $id): Response
+    {
+        
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
+        $pack = $this->entityManager->getRepository(User::class)->find($id);
+        if ($pack) {
+            $pack->setState("active");
+            $this->entityManager->persist($pack);
+            $this->entityManager->flush();
+            return $this->redirectToRoute("app_expeditor", ["msg" => "Your expeditor activated successfuly"]);
+        } else {
+            return $this->redirectToRoute("app_expeditor", ["error" => "The expeditor is not disponible"]);
+        }
+    }
+    #[Route('/expeditor/inactive/{id}', name: 'app_inactive_expeditor')]
+    public function inactive(Request $req, $id): Response
+    {
+        
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
+        $pack = $this->entityManager->getRepository(User::class)->find($id);
+        if ($pack) {
+            $pack->setState("inactive");
+            $this->entityManager->persist($pack);
+            $this->entityManager->flush();
+            return $this->redirectToRoute("app_expeditor", ["msg" => "Your expeditor disactivated successfuly"]);
+        } else {
+            return $this->redirectToRoute("app_expeditor", ["error" => "The expeditor is not disponible"]);
+        }
     }
 }

@@ -16,7 +16,7 @@
 </div>
 {% endif %}
 <h1 class="primary-color">LIST OF YOUR EXPEDITORS</h1>
-<a href="{{path('app_add_expeditor')}}" class="btn secondary-bg text-light m-3" title="Add new package">Add New Package</a>
+<a href="{{path('app_add_expeditor')}}" class="btn secondary-bg text-light m-3" title="Add new package">Add New Expeditor</a>
    <table id="expeditorList" class="table table-striped" style="width:100%">
         <thead>
             <tr>
@@ -28,6 +28,8 @@
                 <th>City</th>
                 <th>Adress</th>
                 <th>identity</th>
+                            <th>Phone</th>
+                <th>State</th>
                 <th>Action</th>
               
             </tr>
@@ -49,9 +51,23 @@
                 <td>{{p.city.label}}</td>
                 <td>{{p.adress()}}</td>
                 <td>{{p.identity}}</td>
+                <td>{{p.phone}}</td>
+                <td>
+                							{% if (p.getState() == "active" )%}
+								<span class="badge bg-success  p-2 text-light">Active</span>
+							{% elseif (p.getState() == "waiting" ) %}
+								<span class="badge bg-warning  p-2 text-dark">Waiting</span>
+							{% else %}
+								<span class="badge bg-danger  p-2 text-light">Inactive</span>
 
+
+							{% endif %}
+                </td>
            
                  <td class="actions">
+                 <a  title="Approve" {% if p.state == "waiting" or p.state == "inactive" %} href="{{path('app_activate_expeditor', {id: p.id})}}" onclick="return confirm('are u sure to activate this expeditor ?')" class="primary-color"  {% else %} href="{{path('app_inactive_expeditor', {id: p.id})}}" onclick="return confirm('are u sure to disactivate this expeditor ?')"  {% endif %}>{% if p.state == "waiting" or p.state == "inactive" %}<i class="far fa-box-check"></i>{% elseif p.state == "active" %}<i class="far fa-exclamation-triangle"></i>{% endif %}</a>
+                 <a  title="Edit"  href="{{path('app_edit_expeditor', {id: p.id})}}" class="primary-color" ><i class="fas fa-edit"></i></a>
+
                 {#  <a  title="Approve" {% if p.state == "waiting" %} href="{{path('app_validate_package', {id: p.id})}}" onclick="return confirm('are u sure to approved this package ?')" class="primary-color"  {% else %} href="javascript:void(0)"  class="text-muted" {% endif %}><i class="far fa-box-check"></i></a>
                  <a  title="pdf" {% if p.state == "approved" %} href="{{path('app_pdf_package', {id: p.id})}}"   class="text-muted" {% endif %}><i class="far fa-box-check"></i></a>
                  <a  title="Edit"  {% if p.state == "waiting" %}  href="{{path('app_edit_package', {id: p.id})}}" class="primary-color" {% else %} href="javascript:void(0)"  class="text-muted" {% endif %}><i class="fas fa-edit"></i></a>
@@ -70,6 +86,8 @@
                 <th>City</th>
                 <th>Adress</th>
                 <th>identity</th>
+                            <th>Phone</th>
+                <th>State</th>
                 <th>Action</th>
             </tr>
         </tfoot>

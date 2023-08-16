@@ -64,7 +64,10 @@ class ExpeditorType extends AbstractType
                 ])
             ->add('adress')
             ->add('identity')
-            ->add('code')
+            ->add('frais_de_livraison')
+            ->add('frais_de_retour')
+            ->add('phone')
+           
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'invalid_message' => 'The password fields must match.',

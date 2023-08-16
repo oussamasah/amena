@@ -68,10 +68,24 @@
 			</div>
 
 			<div class="row mb-3">
-				<div class="col-md-4">Expeditor secret validation code :</div>
+				<div class="col-md-4">Expeditor Phone :</div>
 				<div class="col-md-8">
-					<small class="form-error">{{ form_errors(form.code) }}</small>
-					{{ form_widget(form.code,{ 'required': true}) }}
+					<small class="form-error">{{ form_errors(form.phone) }}</small>
+					{{ form_widget(form.phone,{ 'required': true}) }}
+				</div>
+			</div>
+			<div class="row mb-3">
+				<div class="col-md-4">Delivery fees :</div>
+				<div class="col-md-8">
+					<small class="form-error">{{ form_errors(form.frais_de_livraison) }}</small>
+					{{ form_widget(form.frais_de_livraison,{ 'required': true}) }}
+				</div>
+			</div>
+			<div class="row mb-3">
+				<div class="col-md-4">Return fees :</div>
+				<div class="col-md-8">
+					<small class="form-error">{{ form_errors(form.frais_de_retour) }}</small>
+					{{ form_widget(form.frais_de_retour,{ 'required': true}) }}
 				</div>
 			</div>
 			<div class="row mb-3">

@@ -1,0 +1,124 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello PackageController!
+{% endblock %}
+
+{% block body %}
+	{% if (app.request.get('msg')) %}
+		<div class="alert alert-success alert-dismissible fade show" role="alert">
+			{{app.request.get('msg')}}
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+	{% endif %}
+	{% if (app.request.get('error')) %}
+		<div class="alert alert-danger alert-dismissible fade show" role="alert">
+			{{app.request.get('error')}}
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+	{% endif %}
+	<h1 class="primary-color">LIST OF YOUR INVOICES</h1>
+	{%if app.user.getRoles()[0] == "EXPEDITOR_ROLE" %}
+	<a href="{{path('app_demande_invoice')}}" class="btn secondary-bg text-light m-3" title="Invoice">Invoice request</a>
+	{% endif %}
+	<table id="packageList" class="table table-striped" style="width:100%">
+		<thead>
+			<tr>
+			
+				<th>#Ref</th>
+				<th>Expeditor</th>
+				<th>Packages</th>
+				<th>Price</th>
+				<th>Tax</th>
+				<th>Total</th>
+				<th>CreateAt</th>
+				<th>State</th>
+				<th>ClosedAt</th>
+			
+				<th>Actions</th>
+			
+
+
+			</tr>
+		</thead>
+		<tbody>
+{% for fact in factures %}
+			<tr>
+			<td>#{{fact.id}}</td>
+			<td>{{fact.getExpeditor().getName()}}</td>
+			<td>
+	
+			{% for p in fact.getPackage() %}
+	
+					<a title="pdf"  href="{{path('app_pdf_package', {id: fact.id})}}"  >
+							#{{p.id}}
+						</a>
+			{% endfor %}</td>
+			<td>{{fact.getPrice()}} DT</td>
+			<td>{{fact.getTax()}} DT</td>
+			<td>{{fact.getPrice() - fact.getTax()}} DT</td>
+			<td>{{fact.getCreateAt() | date}}</td>
+			<td>
+									{% if (fact.state == "processing")  %}
+							<span class="badge bg-warning  p-2 text-light">{{fact.state | capitalize}}</span>
+						{% else %}
+							<span class="badge bg-success  p-2 text-light">{{fact.state | capitalize}}</span>
+						{% endif %}
+			</td>
+				<td>
+					{% if (fact.getClosedAt() != null)  %}
+								{{fact.getClosedAt() | date}}
+						{% else %}
+							--
+						{% endif %}
+			</td>
+				
+			<td style='font-size:20px;'>
+			{%if app.user.getRoles()[0] == "ADMIN_ROLE" %}
+									<a title="Edit" {% if fact.state == "processing" %} href="{{path('app_validate_invoice', {id: fact.id})}}" class="primary-color" {% else %} href="javascript:void(0)" class="text-muted" {% endif %}>
+							<i class="fa-light fa-memo-circle-check"></i>
+						</a>
+					{% endif %}
+							<a title="pdf" href="{{path('app_pdf_invoice', {id: fact.id})}}"  >
+							<i class="fas fa-file-pdf"></i>
+						</a>
+			</td>
+	
+
+</tr>
+			{% endfor %}
+		</tbody>
+		<tfoot>
+			<tr>
+				
+				<th>#Ref</th>
+				<th>Expeditor</th>
+				<th>Packages</th>
+				<th>Price</th>
+				<th>Tax</th>
+				<th>Total</th>
+				<th>CreateAt</th>
+				<th>State</th>
+				<th>ClosedAt</th>
+			
+				<th>Actions</th>
+		
+			</tr>
+		</tfoot>
+	</table>
+{% endblock %}
+{% block stylesheets %}
+	{{ parent() }}
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap5.min.css">
+{% endblock %}
+{% block javascripts %}
+	{{ parent() }}
+	<script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+	<script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"></script>
+	<script>
+		$(document).ready(function () {
+
+$('#packageList').DataTable();
+});
+	</script>
+
+{% endblock %}

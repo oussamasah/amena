@@ -1,0 +1,54 @@
+{% set count = notifications|filter(v => v.seen == 0 )| length %}
+<div class="dropdown dropup">
+	<button type="button" class="btn btn-primary position-relative me-4 dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+		<i class="far fa-bell"></i>
+		{% if count > 0 %}
+			<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+				{{count}}
+				<span class="visually-hidden">unread messages</span>
+			</span>
+		{% endif %}
+	</button>
+	<ul class="dropdown-menu notifs">
+		<h4>Notifications</h4>
+		{% if notifications is not empty %}
+			<ul>
+
+				{% for notification in notifications %}
+					
+
+                                        {% if notification.seen %}
+					<li  class="notif">
+
+                        {% else %}
+                    	<li  data-id="{{ notification.id }}" class="notif active"  >
+                        {% endif %}
+
+					
+						<div class="notif_header d-flex align-items-center">
+							
+							<span class="notif_icon ">
+							{{ notification.icon | raw  }}</span>
+							<span class="notif_title ">
+								{{ notification.title }}</span>
+						</div>
+						<p>
+							{{ notification.message | raw }}</p>
+						<span class="time">{{notification.createAt }}
+							 ago</span>
+                        {% if notification.seen %}
+							<span class="time">seen at {{notification.seenAt | date }}
+							 </span>
+
+                        {% endif %}
+
+					</li>
+				{% endfor %}
+			</ul>
+		{% else %}
+			<li>No new notifications.</li>
+		{% endif %}
+
+
+	</ul>
+</div>

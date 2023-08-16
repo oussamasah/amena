@@ -20,28 +20,63 @@ class AppFixtures extends Fixture
         $manager->persist($account);
 
 
-        $r1 = new Region();
-        $r1->setLabel("Nabeul");
-        $r1->setName("name");
-        $manager->persist($r1);
+        $tunisianRegions = [
+            [
+                'name' => 'Tunis',
+                'label' => 'Tunis',
+                'cities' => [
+                    ['name' => 'Tunis', 'label' => 'Tunis'],
+                    ['name' => 'Ariana', 'label' => 'Ariana'],
+                    ['name' => 'La Marsa', 'label' => 'La Marsa'],
+                    ['name' => 'Carthage', 'label' => 'Carthage'],
+                ],
+            ],
+            [
+                'name' => 'Nabeul',
+                'label' => 'Nabeul',
+                'cities' => [
+                    ['name' => 'Nabeul', 'label' => 'Nabeul'],
+                    ['name' => 'Hammamet', 'label' => 'Hammamet'],
+                    ['name' => 'Kelibia', 'label' => 'Kelibia'],
+                    ['name' => 'Dar Chaabane', 'label' => 'Dar Chaabane'],
+                ],
+            ],
+            [
+                'name' => 'Sousse',
+                'label' => 'Sousse',
+                'cities' => [
+                    ['name' => 'Sousse', 'label' => 'Sousse'],
+                    ['name' => 'Monastir', 'label' => 'Monastir'],
+                    ['name' => 'Mahdia', 'label' => 'Mahdia'],
+                ],
+            ],
+            [
+                'name' => 'Sfax',
+                'label' => 'Sfax',
+                'cities' => [
+                    ['name' => 'Sfax', 'label' => 'Sfax'],
+                    ['name' => 'Gabès', 'label' => 'Gabès'],
+                    ['name' => 'El Jem', 'label' => 'El Jem'],
+                    ['name' => 'Kerkennah', 'label' => 'Kerkennah'],
+                ],
+            ],
+            // Add more regions with their respective cities
+        ];
 
-        $r2 = new Region();
-        $r2->setLabel("Tunis");
-        $r2->setName("tunis");
-        $manager->persist($r2);
+        foreach ($tunisianRegions as $regionData) {
+            $region = new Region();
+            $region->setName($regionData['name']);
+            $region->setLabel($regionData['label']);
+            $manager->persist($region);
 
-
-        $c1 = new City();
-        $c1->setLabel("Grombalia");
-        $c1->setName("grombalia");
-        $c1->setRegion($r1);
-        $manager->persist($c1);
-
-        $c2 = new City();
-        $c2->setLabel("Alain savary");
-        $c2->setName("alain_savary");
-        $c1->setRegion($r2);
-        $manager->persist($c2);
+            foreach ($regionData['cities'] as $cityData) {
+                $city = new City();
+                $city->setName($cityData['name']);
+                $city->setLabel($cityData['label']);
+                $city->setRegion($region);
+                $manager->persist($city);
+            }
+        }
 
         $user = new User();
         $user->setAccount($account);
@@ -49,11 +84,12 @@ class AppFixtures extends Fixture
         $user->setPassword('$2y$13$gjX1WQlrAb5vTt0cPGqLfu/atwHnZ8TmT53LXu0GTLIJqk6voKLUS');
         $user->setName("Admin");
         $user->setRoles(["ADMIN_ROLE"]);
+        $user->setState(['active']);
         $user->setIdentity("06101994");
-        $user->setRegion($r1);
-        $user->setCity($c1);
+        $user->setRegion($manager->getRepository(Region::class)->find(1));
+        $user->setCity($manager->getRepository(City::class)->find(1));
         $user->setAdress("06 rue abue kassem chebbi");
-        $user->setCode("06101994");
+    
         $manager->persist($user);
 
 

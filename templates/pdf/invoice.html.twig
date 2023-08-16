@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Invoice</title>
+		<style>
+			body {
+				font-family: Arial, sans-serif;
+			}
+
+
+
+			.image-table {
+				border-collapse: collapse;
+			}
+
+			.image-table td.logo img {
+				max-width: 200px;
+				max-height: 100px;
+
+
+			}
+			.image-table td.qrcode {
+				text-align: center;
+			}
+			.image-table td.qrcode img {
+				width: 100px;
+			}
+			.image-table td.profile {
+				text-align: right;
+			}
+			.image-table td.profile img {
+				max-width: 200px;
+				max-height: 100px;
+			}
+			.image-table td.logo {
+				text-align: left;
+			}
+			.image-table td {
+
+				padding: 10px;
+				width: 33.33%;
+				text-align: center;
+			}
+
+			.logo {
+				width: 150px;
+				height: 150px;
+			}
+
+			.date {
+				font-size: 18px;
+				margin-top: 10px;
+			}
+
+			.content {
+				margin-bottom: 30px;
+			}
+
+			.content-title {
+				font-weight: bold;
+				margin-bottom: 10px;
+			}
+
+			table {
+				width: 100%;
+				border-collapse: collapse;
+			}
+
+			th,
+			td {
+				padding: 8px;
+				text-align: left;
+				width:auto;
+			
+			}
+
+			.footer {
+				margin-top: 30px;
+				text-align: right;
+			}
+            table.info {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    
+   table.info  td , table.info  th{
+	min-width:56px;
+      border: 1px solid black;
+      padding: 8px;
+      text-align: left;
+    }
+    table.info  th{
+        background:grey;  color:white;
+      
+    }
+	.text-end{
+		text-align:right;
+	}
+		</style>
+	</head>
+	<body>
+		<table class="image-table">
+			<tr>
+				<td class="logo">
+					<img src="{{ logo }}">
+					
+				</td>
+				<td class="qrcode">
+						<div class="content-title">Invoice #{{facture.id}} </div>
+						<div class="content-title">Created At {{facture.createAt | date }} </div>
+						<div class="content-title">Closed At  {{facture.closedAt | date}} </div>
+				</td>
+				<td class="profile">
+					<img src="{{ profile }}">
+				
+				</td>
+			</tr>
+		</table>
+        <hr>
+         
+	
+		
+	
+
+			<table id="packageList" class="table info" style="width:800px">
+		<thead>
+			<tr>
+			
+				<th>#Ref</th>
+				<th>Label</th>
+				<th>Dest.name</th>
+				<th>Dest.phone</th>
+				<th>Region</th>
+				<th>City</th>
+				<th>Adress</th>
+				<th>Nb.P</th>
+				<th>State</th>
+				<th>Date</th>
+				<th>Price</th>
+				<th>Tax</th>
+				<th>Total</th>
+
+			</tr>
+		</thead>
+		<tbody>
+{% set price = 0 %}
+{% set tax = 0 %}
+	{% for p in facture.getPackage() %}
+				<tr>
+
+
+					<td>#{{p.id}}</td>
+					<td>{{p.label}}</td>
+					<td>{{p.getDestName() }}</td>
+					<td>{{p.getDestPhone()}}</td>
+					<td>{{p.region.label}}</td>
+					<td>{{p.city.label()}}</td>
+					<td>{{p.adress}}</td>
+					<td>{{p.getNbProduct()}}</td>
+					<td>
+						{% if (p.state == "waiting")%}
+							<span class="badge bg-warning  p-2 text-dark">{{p.state | capitalize}}</span>
+						{% elseif (p.state == "picked")  %}
+							<span class="badge bg-info  p-2 text-dark">{{p.state | capitalize}}</span>
+						{% elseif (p.state == "pending")  %}
+							<span class="badge bg-warning  p-2 text-light">{{p.state | capitalize}}</span>
+						{% elseif (p.state == "delivered")  %}
+							<span class="badge bg-success  p-2 text-light">{{p.state | capitalize}}</span>
+						{% elseif (p.state == "approved")  %}
+							<span class="badge bg-dark  p-2 text-light">{{p.state | capitalize}}</span>
+						{% elseif (p.state == "processing")  %}
+							<span class="badge bg-info  p-2 text-light">{{p.state | capitalize}}</span>
+						{% elseif (p.state == "returned")  %}
+							<span class="badge bg-danger  p-2 text-light">{{p.state | capitalize}}</span>
+						{% endif %}
+					</td>
+					<td>
+						{% if (p.state == "waiting")%}
+							{{p.getCreateDate() | date}}
+						{% elseif (p.state == "picked")  %}
+							{{p.getPickedAt() | date}}
+						{% elseif (p.state == "delivered")  %}
+							{{p.getClosedAt() | date}}
+						{% elseif (p.state == "approved")  %}
+							{{p.getValidatedAt() | date}}
+						{% elseif (p.state == "pending")  %}
+							{{p.getPendingAt() | date}}
+						{% elseif (p.state == "processing")  %}
+							{{p.getProcessingAt() | date}}
+						{% elseif (p.state == "returned" )   %}
+							{{p.getClosedAt() | date}}
+						{% elseif (p.state == "delivered" )   %}
+							{{p.getClosedAt() | date}}
+						{% endif %}
+
+
+					</td>
+<td>
+
+
+{% if (p.state == "returned" )   %}
+							0 DT
+						{% elseif (p.state == "delivered" )   %}
+							{{p.price}} DT
+							{%  set price = price + p.price%}
+						{% endif %}
+</td>
+<td>
+
+{% if (p.state == "returned" )   %}
+						{{p.getExpeditor().getFraisDeRetour()}} DT
+						{%  set tax = tax + p.getExpeditor().getFraisDeRetour() %}
+						{% elseif (p.state == "delivered" )   %}
+						{{p.getExpeditor().getFraisDeLivraison()}} DT
+						{% set  tax = tax + p.getExpeditor().getFraisDeLivraison() %}
+
+						{% endif %}
+</td>
+
+<td>
+{% if (p.state == "returned" )   %}
+						{{0 - p.getExpeditor().getFraisDeRetour()}} DT
+					
+						{% elseif (p.state == "delivered" )   %}
+						{{p.price - p.getExpeditor().getFraisDeLivraison()}} DT
+					
+
+						{% endif %}
+
+</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+		<tfoot>
+			<tr>
+				<th></th>
+				
+				<th></th>
+				<th></th>
+				<th></th>
+				<th></th>
+				<th></th>
+				<th></th>
+				<th></th>
+				<th></th>
+				<th>Total</th>
+				<th>{{price}} DT</th>
+				<th>{{tax}} DT</th>
+				<th>{{price - tax}} DT</th>
+			</tr>
+		</tfoot>
+	</table>
+      
+  <br>
+
+        <div class="content-title text-end">  Net payable {{price - tax}} DT </div>
+
+{# 		<table class="image-table">
+			<tr>
+				<td class="logo">
+					<img src="{{ logo }}">
+				</td>
+				<td class="qrcode">
+					<img src="{{qrcode}}">
+				</td>
+				<td class="profile">
+					<img src="{{ profile }}">
+				</td>
+			</tr>
+		</table> #}
+	</body>
+</html>

@@ -1,105 +1,198 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello PackageController!{% endblock %}
+{% block title %}Hello PackageController!
+{% endblock %}
 
 {% block body %}
-{% if (app.request.get('msg')) %}
-<div class="alert alert-success alert-dismissible fade show" role="alert">
- {{app.request.get('msg')}}
-  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>
-{% endif %}
-{% if (app.request.get('error')) %}
-<div class="alert alert-danger alert-dismissible fade show" role="alert">
- {{app.request.get('error')}}
-  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>
-{% endif %}
-<h1 class="primary-color">LIST OF  PACKAGES</h1>
+	{% if (app.request.get('msg')) %}
+		<div class="alert alert-success alert-dismissible fade show" role="alert">
+			{{app.request.get('msg')}}
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+	{% endif %}
+	{% if (app.request.get('error')) %}
+		<div class="alert alert-danger alert-dismissible fade show" role="alert">
+			{{app.request.get('error')}}
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+	{% endif %}
+	<h1 class="primary-color">LIST OF  PACKAGES</h1>
 
-   <table id="packageList" class="table table-striped" style="width:100%">
-        <thead>
-            <tr>
-                <th>Expeditor</th>
-                <th>Delivery</th>
-                <th>Label</th>
-                <th>Price</th>
-                <th>Dest. name</th>
-                <th>Dest. phone</th>
-                <th>Region</th>
-                <th>City</th>
-                <th>Adress</th>
-                <th>Nb. products</th>
-                <th>State</th>
-                <th>Date</th>
-                <th>Action</th>
-              
-            </tr>
-        </thead>
-        <tbody>
+	<table id="packageList" class="table table-striped" style="width:100%">
+		<thead>
+			<tr>
+				<th>Expeditor</th>
+				<th>Delivery</th>
+				<th>Label</th>
+				<th>Price</th>
+				<th>Dest. name</th>
+				<th>Dest. phone</th>
+				<th>Region</th>
+				<th>City</th>
+				<th>Adress</th>
+				<th>Nb. products</th>
+				<th>State</th>
+				<th>Date</th>
+				<th>Approved in</th>
+				<th>Invoiced</th>
 
-        {% for p in packages %}
-            <tr>
-                <td>{{p.expeditor.name}}</td>
-                <td>{% if p.delivery == null %}<span class="badge bg-danger  p-2 text-light">None</span>{% else %} {{p.delivery.name}} {% endif%}</td>
-                <td>{{p.label}}</td>
-                <td>{{p.price}}</td>
-                <td>{{p.getDestName() }}</td>
-                <td>{{p.getDestPhone()}}</td>
-                <td>{{p.region.label}}</td>
-                <td>{{p.city.label()}}</td>
-                <td>{{p.adress}}</td>
-                <td>{{p.getNbProduct()}}</td>
-                <td>{% if (p.state == "picked")%}
-                <span class="badge bg-info  p-2 text-dark">{{p.state | capitalize}}</span>
-            
-                {% elseif (p.state == "delivered")  %}
-                <span class="badge bg-success  p-2 text-light">{{p.state | capitalize}}</span>
-             {% elseif (p.state == "approved")  %}
-                <span class="badge bg-dark  p-2 text-light">{{p.state | capitalize}}</span>
-                {% elseif (p.state == "returned")  %}
-                <span class="badge bg-danger  p-2 text-light">{{p.state | capitalize}}</span>
-                {% endif %}</td>
-                <td>{{p.getCreateDate() | date}}</td>
-                 <td class="actions">
-               <a  title="Choose delivery" {% if p.state == "approved"  %} href="{{path('app_delivery_package', {id: p.id})}}"  class="primary-color"  {% else %} href="javascript:void(0)"  class="text-muted" {% endif %}><i class="far fa-hand-holding-box"></i></a>
-                
-                </td>
-            </tr>
-          {% endfor %}
-        </tbody>
-        <tfoot>
-            <tr>
-                <th>expeditor</th>
-                   <th>Delivery</th>
-                <th>Label</th>
-                <th>Price</th>
-                <th>Dest. name</th>
-                <th>Dest. phone</th>
-                <th>Region</th>
-                <th>City</th>
-                <th>Adress</th>
-                <th>Nb. products</th>
-                <th>State</th>
-                <th>Date</th>
-                <th>actions</th>
-            </tr>
-        </tfoot>
-    </table>
-{% endblock %}
-{% block stylesheets %}
- {{ parent() }}
-<link rel="stylesheet"  href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap5.min.css">
-{% endblock %}
-{% block javascripts %}
- {{ parent() }}
-<script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js" ></script>
+				<th>Action</th>
+
+			</tr>
+		</thead>
+		<tbody>
+
+			{% for p in packages %}
+				<tr>
+					<td>{{p.expeditor.name}}</td>
+					<td>
+						{% if p.delivery == null %}
+							<span class="badge bg-danger  p-2 text-light">None</span>
+						{% else %}
+							{{p.delivery.name}}
+							{% endif%}</td>
+					</td>
+					<td>{{p.label}}</td>
+					<td>{{p.price}}</td>
+					<td>{{p.getDestName() }}</td>
+					<td>{{p.getDestPhone()}}</td>
+					<td>{{p.region.label}}</td>
+					<td>{{p.city.label()}}</td>
+					<td>{{p.adress}}</td>
+					<td>{{p.getNbProduct()}}</td>
+					<td>
+						{% if (p.state == "waiting")%}
+							<span class="badge bg-warning  p-2 text-dark">{{p.state | capitalize}}</span>
+						{% elseif (p.state == "picked")  %}
+							<span class="badge bg-info  p-2 text-dark">{{p.state | capitalize}}</span>
+						{% elseif (p.state == "pending")  %}
+							<span class="badge bg-warning  p-2 text-light">{{p.state | capitalize}}</span>
+						{% elseif (p.state == "delivered")  %}
+							<span class="badge bg-success  p-2 text-light">{{p.state | capitalize}}</span>
+						{% elseif (p.state == "approved")  %}
+							<span class="badge bg-dark  p-2 text-light">{{p.state | capitalize}}</span>
+						{% elseif (p.state == "processing")  %}
+							<span class="badge bg-info  p-2 text-light">{{p.state | capitalize}}</span>
+						{% elseif (p.state == "returned")  %}
+							<span class="badge bg-danger  p-2 text-light">{{p.state | capitalize}}</span>
+						{% endif %}
+					</td>
+					<td>
+						{% if (p.state == "waiting")%}
+							{{p.getCreateDate() | date}}
+						{% elseif (p.state == "picked")  %}
+							{{p.getPickedAt() | date}}
+						{% elseif (p.state == "delivered")  %}
+							{{p.getClosedAt() | date}}
+						{% elseif (p.state == "approved")  %}
+							{{p.getValidatedAt() | date}}
+						{% elseif (p.state == "pending")  %}
+							{{p.getPendingAt() | date}}
+						{% elseif (p.state == "processing")  %}
+							{{p.getProcessingAt() | date}}
+						{% elseif (p.state == "returned" )   %}
+							{{p.getClosedAt() | date}}
+						{% elseif (p.state == "delivered" )   %}
+							{{p.getClosedAt() | date}}
+						{% endif %}
+
+
+					</td>
+					<td class="">
+						{% if (p.state  not in ['returned','delivered'])%}
+							{% set diff = date(p.getValidatedAt()).diff(date()).days %}
+
+							{% if (diff < 2 ) %}
+								<span class="badge bg-success  p-2 text-light">
+									{{diff}}
+									Days</span>
+							{% elseif (diff < 5)   %}
+								<span class="badge bg-warning  p-2 text-light">
+									{{diff}}
+									Days</span>
+							{% else   %}
+								<span class="badge bg-danger  p-2 text-light">
+									{{diff}}
+									Days</span>
+
+							{% endif %}
+
+						{% else    %}
+							{% set diff = date(p.getValidatedAt()).diff(p.getClosedAt()).days %}
+							{% if (diff < 2 ) %}
+								<span class="badge bg-success  p-2 text-light">
+									{{diff}}
+									Days</span>
+							{% elseif (diff < 5)   %}
+								<span class="badge bg-warning  p-2 text-light">
+									{{diff}}
+									Days</span>
+							{% else   %}
+								<span class="badge bg-danger  p-2 text-light">
+									{{diff}}
+									Days</span>
+
+							{% endif %}
+
+
+						{% endif %}
+					</td>
+					<td>
+						{% if (p.getFacture() != null)%}
+							{% if (p.getFacture().state == "done" )%}
+								<span class="badge bg-success  p-2 text-light">Done</span>
+							{% else %}
+								<span class="badge bg-dark  p-2 text-light">processing</span>
+
+							{% endif %}
+
+						{% elseif (p.getFacture() == null and (p.state=="delivered" or p.state=="returned"))  %}
+							<span class="badge bg-danger  p-2 text-light">Waiting</span>
+
+
+						{% else %}
+							<span class="badge bg-dark  p-2 text-light">not ready</span>
+
+						{% endif %}
+
+					</td>
+					<td class="actions">
+						<a title="Choose delivery" {% if p.state == "approved" %} href="{{path('app_delivery_package', {id: p.id})}}" class="primary-color" {% else %} href="javascript:void(0)" class="text-muted" {% endif %}>
+							<i class="far fa-hand-holding-box"></i>
+						</a>
+					</td>
+				</tr>
+
+
+			</tr>
+		{% endfor %}
+	</tbody>
+	<tfoot>
+		<tr>
+			<th>expeditor</th>
+			<th>Delivery</th>
+			<th>Label</th>
+			<th>Price</th>
+			<th>Dest. name</th>
+			<th>Dest. phone</th>
+			<th>Region</th>
+			<th>City</th>
+			<th>Adress</th>
+			<th>Nb. products</th>
+			<th>State</th>
+			<th>Date</th>
+			<th>Approved in</th>
+			<th>Invoiced</th>
+			<th>actions</th>
+		</tr>
+	</tfoot>
+</table>{% endblock %}{% block stylesheets %}
+{{ parent() }}<link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap5.min.css">{% endblock %}{% block javascripts %}
+{{ parent() }}<script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"></script>
 <script>
-    $(document).ready(function () {
-      
-    $('#packageList').DataTable();
-});
-</script>
+	$(document).ready(function () {
 
-{% endblock %}
+$('#packageList').DataTable();
+});
+</script>{% endblock %}

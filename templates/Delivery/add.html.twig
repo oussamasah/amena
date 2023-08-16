@@ -1,0 +1,97 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello PackageController!
+{% endblock %}
+
+{% block body %}
+	
+
+
+	<div class="card">
+		<div class="card-header d-flex justify-content-between">
+			<h1 class="primary-color">ADD NEW DELIVERY</h1>
+            	<button onclick="window.history.back();" class="btn  secondary-bg text-light pt-1 pb-1 ps-3 pe-3">Retrun</button>
+		</div>
+		<div class="card-body container p-5">
+
+	{{ form_start(form) }}
+	{{ form_row(form._token) }}
+			<div class="row mb-3 ">
+				<div class="col-md-4 form-label">Delivery logo :</div>
+				<div class="col-md-8">
+					<small class="form-error">{{ form_errors(form.photo) }}</small>
+					{{ form_widget(form.photo,{ 'required': true}) }}
+				</div>
+			</div>
+			<div class="row mb-3 ">
+				<div class="col-md-4 form-label">Delivery Name :</div>
+				<div class="col-md-8">
+					<small class="form-error">{{ form_errors(form.name) }}</small>
+					{{ form_widget(form.name,{ 'required': true}) }}
+				</div>
+			</div>
+			<div class="row mb-3 ">
+				<div class="col-md-4 form-label">Delivery Email :</div>
+				<div class="col-md-8">
+					<small class="form-error">{{ form_errors(form.email) }}</small>
+					{{ form_widget(form.email,{ 'required': true}) }}
+				</div>
+			</div>
+			<div cla
+			<div class="row mb-3 ">
+				<div class="col-md-4 form-label">Delivery identity :</div>
+				<div class="col-md-8">
+					<small class="form-error">{{ form_errors(form.identity) }}</small>
+					{{ form_widget(form.identity,{ 'required': true}) }}
+				</div>
+			</div>
+			<div class="row mb-3">
+				<div class="col-md-4">Delivery region :</div>
+				<div class="col-md-8">
+					<small class="form-error">{{ form_errors(form.region) }}</small>
+					{{ form_widget(form.region) }}
+				</div>
+			</div>
+			<div class="row mb-3">
+				<div class="col-md-4">Delivery City :</div>
+				<div class="col-md-8">
+					<small class="form-error">{{ form_errors(form.city) }}</small>
+					{{ form_widget(form.city,{ 'required': true}) }}
+				</div>
+			</div>
+			<div class="row mb-3">
+				<div class="col-md-4">Delivery Adress :</div>
+				<div class="col-md-8">
+					<small class="form-error">{{ form_errors(form.adress) }}</small>
+					{{ form_widget(form.adress,{ 'required': true}) }}
+				</div>
+			</div>
+			<div class="row mb-3">
+				<div class="col-md-4">Delivery Phone :</div>
+				<div class="col-md-8">
+					<small class="form-error">{{ form_errors(form.phone) }}</small>
+					{{ form_widget(form.phone,{ 'required': true}) }}
+				</div>
+			</div>
+
+			<div class="row mb-3">
+				<div class="col-md-4">Password  :</div>
+				<div class="col-md-8">
+					<small class="form-error">{{ form_errors(form.password) }}</small>
+					{{ form_widget(form.password,{ 'required': true}) }}
+				</div>
+			</div>
+			
+
+
+			<div class="row mb-3">
+
+				<div class="col-md-12 text-right">
+
+					<input type="submit" class="btn  primary-bg text-light " value="Add New Delivery"/>
+				</div>
+			</div>
+		</div>
+	</div>
+	{{ form_end(form, {'render_rest': false}) }}
+{% endblock %}

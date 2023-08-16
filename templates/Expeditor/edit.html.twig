@@ -1,0 +1,111 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello PackageController!
+{% endblock %}
+
+{% block body %}
+	
+
+
+	<div class="card">
+		<div class="card-header d-flex justify-content-between">
+			<h1 class="primary-color">EDIT EXPEDITOR</h1>
+            	<button onclick="window.history.back();" class="btn  secondary-bg text-light pt-1 pb-1 ps-3 pe-3">Retrun</button>
+		</div>
+		<div class="card-body container p-5">
+
+	{{ form_start(form) }}
+	{{ form_row(form._token) }}
+			
+			<div class="row mb-3 ">
+				<div class="col-md-4 form-label">Expeditor Name :</div>
+				<div class="col-md-8">
+					<small class="form-error">{{ form_errors(form.name) }}</small>
+					{{ form_widget(form.name,{ 'required': true,readonly:true}) }}
+				</div>
+			</div>
+			<div class="row mb-3 ">
+				<div class="col-md-4 form-label">Expeditor Email :</div>
+				<div class="col-md-8">
+					<small class="form-error">{{ form_errors(form.email) }}</small>
+					{{ form_widget(form.email,{ 'required': true,readonly:true}) }}
+				</div>
+			</div>
+			<div cla
+			<div class="row mb-3 ">
+				<div class="col-md-4 form-label">Expeditor identity :</div>
+				<div class="col-md-8">
+					<small class="form-error">{{ form_errors(form.identity) }}</small>
+					{{ form_widget(form.identity,{ 'required': true,readonly:true}) }}
+				</div>
+			</div>
+			<div class="row mb-3">
+				<div class="col-md-4">Expeditor region :</div>
+				<div class="col-md-8">
+					<small class="form-error">{{ form_errors(form.region) }}</small>
+					{{ form_widget(form.region,{readonly:true}) }}
+				</div>
+			</div>
+			<div class="row mb-3">
+				<div class="col-md-4">Expeditor City :</div>
+				<div class="col-md-8">
+					<small class="form-error">{{ form_errors(form.city) }}</small>
+					{{ form_widget(form.city,{ 'required': true,readonly:true}) }}
+				</div>
+			</div>
+			<div class="row mb-3">
+				<div class="col-md-4">Expeditor Adress :</div>
+				<div class="col-md-8">
+					<small class="form-error">{{ form_errors(form.adress) }}</small>
+					{{ form_widget(form.adress,{ 'required': true,readonly:true}) }}
+				</div>
+			</div>
+
+			<div class="row mb-3">
+				<div class="col-md-4">Expeditor Phone :</div>
+				<div class="col-md-8">
+					<small class="form-error">{{ form_errors(form.phone) }}</small>
+					{{ form_widget(form.phone,{ 'required': true,readonly:true}) }}
+				</div>
+			</div>
+			<div class="row mb-3">
+				<div class="col-md-4">Delivery fees :</div>
+				<div class="col-md-8">
+					<small class="form-error">{{ form_errors(form.frais_de_livraison) }}</small>
+					{{ form_widget(form.frais_de_livraison,{ 'required': true}) }}
+				</div>
+			</div>
+			<div class="row mb-3">
+				<div class="col-md-4">Return fees :</div>
+				<div class="col-md-8">
+					<small class="form-error">{{ form_errors(form.frais_de_retour) }}</small>
+					{{ form_widget(form.frais_de_retour,{ 'required': true}) }}
+				</div>
+			</div>
+
+
+
+			<div class="row mb-3">
+				<div class="col-md-4">State :</div>
+				<div class="col-md-8">
+					<small class="form-error">{{ form_errors(form.state) }}</small>
+					{{ form_widget(form.state,{ 'required': true}) }}
+				</div>
+			</div>
+
+
+
+			
+
+
+			<div class="row mb-3">
+
+				<div class="col-md-12 text-right">
+
+					<input type="submit" class="btn  primary-bg text-light " value="Edit Expeditor"/>
+				</div>
+			</div>
+		</div>
+	</div>
+	{{ form_end(form, {'render_rest': false}) }}
+{% endblock %}

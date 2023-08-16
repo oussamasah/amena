@@ -16,11 +16,16 @@
 			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 		</div>
 	{% endif %}
+	
+
 	<h1 class="primary-color">LIST OF YOUR PACKAGES</h1>
+	{%if app.user.getState() == "active" %}
 	<a href="{{path('app_add_package')}}" class="btn secondary-bg text-light m-3" title="Add new package">Add New Package</a>
+	{% endif %}
 	<table id="packageList" class="table table-striped" style="width:100%">
 		<thead>
 			<tr>
+
 				<th>Label</th>
 				<th>Price</th>
 				<th>Dest. name</th>
@@ -31,6 +36,7 @@
 				<th>Nb. products</th>
 				<th>State</th>
 				<th>Date</th>
+				<th>factured</th>
 				<th>Action</th>
 
 			</tr>
@@ -39,6 +45,8 @@
 
 			{% for p in packages %}
 				<tr>
+
+
 					<td>{{p.label}}</td>
 					<td>{{p.price}}</td>
 					<td>{{p.getDestName() }}</td>
@@ -52,20 +60,63 @@
 							<span class="badge bg-warning  p-2 text-dark">{{p.state | capitalize}}</span>
 						{% elseif (p.state == "picked")  %}
 							<span class="badge bg-info  p-2 text-dark">{{p.state | capitalize}}</span>
+						{% elseif (p.state == "pending")  %}
+							<span class="badge bg-warning  p-2 text-light">{{p.state | capitalize}}</span>
 						{% elseif (p.state == "delivered")  %}
 							<span class="badge bg-success  p-2 text-light">{{p.state | capitalize}}</span>
 						{% elseif (p.state == "approved")  %}
 							<span class="badge bg-dark  p-2 text-light">{{p.state | capitalize}}</span>
+						{% elseif (p.state == "processing")  %}
+							<span class="badge bg-info  p-2 text-light">{{p.state | capitalize}}</span>
 						{% elseif (p.state == "returned")  %}
 							<span class="badge bg-danger  p-2 text-light">{{p.state | capitalize}}</span>
 						{% endif %}
 					</td>
-					<td>{{p.getCreateDate() | date}}</td>
+					<td>
+						{% if (p.state == "waiting")%}
+							{{p.getCreateDate() | date}}
+						{% elseif (p.state == "picked")  %}
+							{{p.getPickedAt() | date}}
+						{% elseif (p.state == "delivered")  %}
+							{{p.getClosedAt() | date}}
+						{% elseif (p.state == "approved")  %}
+							{{p.getValidatedAt() | date}}
+						{% elseif (p.state == "pending")  %}
+							{{p.getPendingAt() | date}}
+						{% elseif (p.state == "processing")  %}
+							{{p.getProcessingAt() | date}}
+						{% elseif (p.state == "returned" )   %}
+							{{p.getClosedAt() | date}}
+						{% elseif (p.state == "delivered" )   %}
+							{{p.getClosedAt() | date}}
+						{% endif %}
+
+
+					</td>
+					<td>
+						{% if (p.getFacture() != null)%}
+							{% if (p.getFacture().state == "Done" )%}
+								<span class="badge bg-success  p-2 text-light">Done</span>
+							{% else %}
+								<span class="badge bg-dark  p-2 text-light">processing</span>
+
+							{% endif %}
+
+						{% elseif (p.getFacture() == null and (p.state=="delivered" or p.state=="returned"))  %}
+							<span class="badge bg-danger  p-2 text-light">Waiting</span>
+
+
+						{% else %}
+							<span class="badge bg-dark  p-2 text-light">not ready</span>
+
+						{% endif %}
+
+					</td>
 					<td class="actions">
 						<a title="Approve" {% if p.state == "waiting" %} href="{{path('app_validate_package', {id: p.id})}}" onclick="return confirm('are u sure to approved this package ?')" class="primary-color" {% else %} href="javascript:void(0)" class="text-muted" {% endif %}>
 							<i class="far fa-box-check"></i>
 						</a>
-						<a title="pdf" {% if p.state == "approved" %} href="{{path('app_pdf_package', {id: p.id})}}" class="text-muted" {% endif %}>
+						<a title="pdf" {% if p.state != "waiting" %} href="{{path('app_pdf_package', {id: p.id})}}"  {% endif %}>
 							<i class="fas fa-file-pdf"></i>
 						</a>
 						<a title="Edit" {% if p.state == "waiting" %} href="{{path('app_edit_package', {id: p.id})}}" class="primary-color" {% else %} href="javascript:void(0)" class="text-muted" {% endif %}>
@@ -80,6 +131,7 @@
 		</tbody>
 		<tfoot>
 			<tr>
+
 				<th>Label</th>
 				<th>Price</th>
 				<th>Dest. name</th>
@@ -90,6 +142,7 @@
 				<th>Nb. products</th>
 				<th>State</th>
 				<th>Date</th>
+				<th>factured</th>
 				<th>actions</th>
 			</tr>
 		</tfoot>
